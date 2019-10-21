@@ -1,0 +1,19 @@
+{
+  "name": "tick-tack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnnycheadshot/tik-tak.git"
+  },
+  "author": "Heba, Yoan, John",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johnnycheadshot/tik-tak/issues"
+  },
+  "homepage": "https://github.com/johnnycheadshot/tik-tak#readme"
+}
