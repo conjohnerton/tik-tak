@@ -1,4 +1,5 @@
-## We did not copy Yik-Yak, okay!
+## Share your day, live through others.
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
 
 ### To use this app:
@@ -7,3 +8,5 @@ $ cd home
 $ sleep untilAppIsDone
 $ do makeTikTakPost while isBreathing
 ```
+### Benefits
+`None`
