@@ -18,6 +18,7 @@
   "homepage": "https://github.com/johnnycheadshot/tik-tak#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "mongoose": "^5.7.7",
     "swagger-jsdoc": "^3.4.0",
     "swagger-ui-express": "^4.1.2"
   }
