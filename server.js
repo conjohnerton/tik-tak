@@ -22,7 +22,7 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerConfig));
  */
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // That is a swagger annotation, it is how we document our API. I'll explain later. Just know that it documents what the route below does.
-// Run the server file : node server.js
+// Run the server file : nodemon server.js
 // Then open up the URL localhost:3001/api-docs in your browser to see what the annotation does for us!
 
 app.get("/test", (req, res) => res.send("Hello, world"));
