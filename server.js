@@ -1,8 +1,8 @@
+const express = require("express");
 const swaggerUI = require("swagger-ui-express");
 const swaggerConfig = require("./swaggerConfig");
-const express = require("express");
-const app = express();
 
+const app = express();
 const port = process.env.PORT || 3001;
 
 // Inits document generation for all that Swagger that we've got
@@ -33,5 +33,5 @@ app.get("/test", (req, res) => res.send("Hello, world"));
 
 // Connect to the DB through a super secret thingy doohickey!
 
-// Makes the server listen, like a creep!
+// Makes the server listen for requests... creepy!
 app.listen(port, () => console.log(`Server listening on port ${port}`));

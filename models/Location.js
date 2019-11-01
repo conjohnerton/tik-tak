@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+// THIS MAY BE UNNECESSARY FOR US TO USE SO PROBABLY
+// BEST TO IGNORE THIS SCHEMA
+
 // A location holds a name and a list of its (expiring) posts
 const LocationSchema = new Schema({
    name: {
