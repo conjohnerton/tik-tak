@@ -9,10 +9,9 @@ import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import PublicIcon from "@material-ui/icons/Public";
+import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import { createMuiTheme } from "@material-ui/core/styles";
 
 function Copyright() {
    return (
@@ -56,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
    }
 }));
 
-export default function Login() {
+export default function SignInSide() {
    const classes = useStyles();
 
    return (
@@ -74,12 +73,12 @@ export default function Login() {
          >
             <div className={classes.paper}>
                <Avatar className={classes.avatar}>
-                  <PublicIcon />
+                  <VpnKeyIcon />
                </Avatar>
                <Typography component="h1" variant="h5">
-                  Log in
+                  Sign in
                </Typography>
-               <form className={classes.form}>
+               <form className={classes.form} noValidate>
                   <TextField
                      variant="outlined"
                      margin="normal"
@@ -113,12 +112,12 @@ export default function Login() {
                      color="primary"
                      className={classes.submit}
                   >
-                     Sign Up
+                     Sign In
                   </Button>
                   <Grid container>
-                     <Grid item flex-direction="">
-                        <Link href="tik-tak-app.com/signup" variant="body2">
-                           {"Don't have an account? Sign Up"}
+                     <Grid item>
+                        <Link href="tik-tak-app.com/login" variant="body2">
+                           {"Already have an account? Log In"}
                         </Link>
                      </Grid>
                   </Grid>
