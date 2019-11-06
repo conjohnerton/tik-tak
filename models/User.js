@@ -1,3 +1,29 @@
-// What should go here?
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-// You can look at the last project!
+// Create Schema
+const UserSchema = new Schema({
+   email: {
+      type: String,
+      required: true,
+      unique: true
+   },
+   password: {
+      type: String,
+      required: true
+   },
+   register_date: {
+      type: Date,
+      default: Date.now
+   },
+
+   //     type: String,
+   //     required: false
+   // },
+
+   posts: [{ type: Schema.Types.ObjectId, ref: "Yak" }],
+
+   comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }]
+});
+
+module.exports = User = mongoose.model("User", UserSchema);

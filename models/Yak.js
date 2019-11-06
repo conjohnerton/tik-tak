@@ -26,3 +26,4 @@ const YakSchema = new Schema({
 });
 
 // Anything else?
+module.exports = mongoose.model("Yak", YakSchema);
