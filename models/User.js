@@ -17,13 +17,9 @@ const UserSchema = new Schema({
       default: Date.now
    },
 
-   //     type: String,
-   //     required: false
-   // },
+   posts: [{ type: Schema.Types.ObjectId, ref: "Yak" }]
 
-   posts: [{ type: Schema.Types.ObjectId, ref: "Yak" }],
-
-   comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }]
+   // comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }]
 });
 
 module.exports = User = mongoose.model("User", UserSchema);
