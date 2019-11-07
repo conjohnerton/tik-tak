@@ -16,7 +16,7 @@ const GeoSchema = new Schema({
 // The model that represents every post, ever.
 const YakSchema = new Schema({
    content: { type: String, required: true },
-   author: { type: Schema.Types.ObjectId, ref: "User" },
+   // author: { type: Schema.Types.ObjectId, ref: "User" },
 
    // TODO: This should be used in sprint2
    // comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
@@ -26,8 +26,9 @@ const YakSchema = new Schema({
    geometry: GeoSchema,
 
    // This may need a different expiration time for testing purpose
-   createdAt: { type: Date, expires: 3600, default: Date.now }, // one of these
-   expire_at: { type: Date, default: Date.now, expires: 3600 } // should work
+   createdAt: { type: Date, expires: "24h", default: Date.now } // one of these
 });
+
+YakSchema.index({ geometry: "2dsphere" });
 
 module.exports = Yak = mongoose.model("Yak", YakSchema);
