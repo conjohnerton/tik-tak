@@ -15,8 +15,13 @@ const GeoSchema = new Schema({
 
 // The model that represents every post, ever.
 const YakSchema = new Schema({
-   // put some other stuff here!
-   // __________________________
+   content: { type: String, required: true },
+   author: { type: Schema.Types.ObjectId, ref: "User" },
+
+   // TODO: This should be used in sprint2
+   // comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
+
+   // TODO: CREATE IMAGE FIELD
 
    geometry: GeoSchema,
 
@@ -25,5 +30,4 @@ const YakSchema = new Schema({
    expire_at: { type: Date, default: Date.now, expires: 3600 } // should work
 });
 
-// Anything else?
-module.exports = mongoose.model("Yak", YakSchema);
+module.exports = Yak = mongoose.model("Yak", YakSchema);

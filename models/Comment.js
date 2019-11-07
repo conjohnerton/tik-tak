@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// The model for a location that maps on the surface of the Earth.
+// Model for each comment. Comments have a One-to-One relation with a User
 const CommentSchema = new Schema({
    content: {
       type: String,
@@ -10,7 +10,7 @@ const CommentSchema = new Schema({
 
    dateCreated: { type: Date, default: Date.now },
 
-   user: { type: Schema.Types.ObjectId, ref: "User" }
+   author: { type: Schema.Types.ObjectId, ref: "User" }
 });
 
 module.exports = Comment = mongoose.model("Comment", CommentSchema);
