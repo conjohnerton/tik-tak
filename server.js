@@ -1,9 +1,39 @@
 const express = require("express");
 const swaggerUI = require("swagger-ui-express");
 const swaggerConfig = require("./swaggerConfig");
+const mongoose = require("mongoose");
+const config = require("config");
+const path = require("path");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 3001;
+
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "client/build")));
+
+//const url = process.env.MONGODB_URI;
+const url = config.get("mongoURI");
+
+// Connect to the DB through a super secret thingy doohickey!
+mongoose
+   .connect(url, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+      useCreateIndex: true
+   })
+   .then((result) => {
+      console.log(`Connected to MongoDB url: ${url}`);
+   })
+   .catch((error) => {
+      console.log("error connecting to MongoDB:", error.message);
+   });
+
+// app.use("/api/contacts", require("./routes/api/contacts"));
+// app.use("/api/users", require("./routes/api/users"));
+// app.use("/api/auth", require("./routes/api/auth"));
 
 // Inits document generation for all that Swagger that we've got
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerConfig));
@@ -31,7 +61,11 @@ app.get("/test", (req, res) => res.send("Hello, world"));
 // Where would we move a route, if we wanted it out of the server file?
 // If you had your routes elsewhere, how could you use them here?
 
-// Connect to the DB through a super secret thingy doohickey!
+app.get("*", (req, res) => {
+   res.sendFile(path.join(__dirname + "/client/build/index.html"));
+});
+
+app.use(cors());
 
 // Makes the server listen for requests... creepy!
 app.listen(port, () => console.log(`Server listening on port ${port}`));
