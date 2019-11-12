@@ -31,9 +31,9 @@ mongoose
       console.log("error connecting to MongoDB:", error.message);
    });
 
-// app.use("/api/contacts", require("./routes/api/contacts"));
-// app.use("/api/users", require("./routes/api/users"));
-// app.use("/api/auth", require("./routes/api/auth"));
+app.use("/api/comments", require("./routes/api/comments"));
+app.use("/api/users", require("./routes/api/users"));
+app.use("/api/login", require("./routes/api/login"));
 
 // Inits document generation for all that Swagger that we've got
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerConfig));
@@ -55,7 +55,23 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerConfig));
 // Run the server file : nodemon server.js
 // Then open up the URL localhost:3001/api-docs in your browser to see what the annotation does for us!
 
-app.get("/test", (req, res) => res.send("Hello, world"));
+/**
+ * @swagger
+ *
+ * /test:
+ *    put:
+ *       description: Use to post a nice message!
+ *       produces:
+ *          - application/json
+ *       responses:
+ *          201:
+ *             description: Puts some stuff
+ */
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+// That is a swagger annotation, it is how we document our API. I'll explain later. Just know that it documents what the route below does.
+// Run the server file : nodemon server.js
+// Then open up the URL localhost:3001/api-docs in your browser to see what the annotation does for us!
+app.put("/test", (req, res) => res.send("Update successful"));
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // This is a test api route, it should be moved elsewhere.
 // Where would we move a route, if we wanted it out of the server file?
