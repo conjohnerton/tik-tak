@@ -1,5 +1,5 @@
 // Note: Should we add preventative measures for posting empty comments?
-// Also, the author isn't returned in the comment JSON... hmmmmmmm
+// Also, the author isn't returned in the comment JSON... hmmmmmm
 
 const express = require("express");
 const router = express.Router();
