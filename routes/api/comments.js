@@ -22,8 +22,12 @@ router.get("/", auth, (req, res) => {
 
 router.post("/", auth, async (req, res) => {
    const newComment = new Comment({
+<<<<<<< HEAD
       content: req.body.content,
       author: req.user.id
+=======
+      content: req.body.content
+>>>>>>> 040cd6f6c25535e2c129c661397e7f8853b2d43b
       // date created and author automatically supplied
    });
 
