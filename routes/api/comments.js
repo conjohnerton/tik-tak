@@ -21,9 +21,12 @@ router.get("/", auth, (req, res) => {
 //router.get("/search/:id", auth, (req, res) => {});
 
 router.post("/", auth, async (req, res) => {
+  // Get user to use its email... So mean.
+  const user = User.findById(req.user.id);
+
   const newComment = new Comment({
     content: req.body.content,
-    author: req.user.id
+    author: user.email
   });
 
   try {
