@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
         type: "Point",
         coordinates: [parseFloat(req.body.lng), parseFloat(req.body.lat)]
       },
-      maxDistance: 8046.72,
+      maxDistance: 8046.72, // 5 miles
       spherical: true
     });
 
@@ -33,9 +33,10 @@ router.get("/", async (req, res) => {
 // Posts a yak to logged-in user, broadcasts to others for
 router.post("/", async (req, res) => {
   try {
-    // Get User the is logged in from DB
+    // Get User the logged in from DB
+    const user = await User.findbyId(req.user.id);
 
-    // Creates and Saves new Yak from input data
+    // Creates and saves new Yak from input data
     const newYak = new Yak({
       content: req.body.content,
       geometry: {
@@ -44,10 +45,13 @@ router.post("/", async (req, res) => {
       }
     });
 
-    newYak.save();
+    await newYak.save();
 
     // Add yak to User object
+    user.posts.push(newYak);
+
     // Save modified User object to DB
+    await user.save();
 
     // Respond with success
     res.status(200).json({ success: true, newYak });
