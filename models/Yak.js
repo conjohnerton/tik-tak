@@ -18,7 +18,7 @@ const GeoSchema = new Schema({
 // The model that represents every post, ever.
 const YakSchema = new Schema({
   content: { type: String, required: true },
-  author: { type: Schema.Types.ObjectId, ref: "User" },
+  author: String,
 
   // TODO: This should be used in sprint2
   // comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],

@@ -9,7 +9,7 @@ const Comment = require("../../models/Comment");
 const User = require("../../models/User");
 
 // Gets yaks within a 5 mile radius of input location
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   try {
     // this is not crashing but Idk if it actually gets anything useful
     // Get yaks around given location, measured along the surface of Earth
@@ -31,14 +31,15 @@ router.get("/", async (req, res) => {
 });
 
 // Posts a yak to logged-in user, broadcasts to others for
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try {
     // Get User the logged in from DB
-    const user = await User.findbyId(req.user.id);
+    const user = await User.findById(req.user.id);
 
     // Creates and saves new Yak from input data
     const newYak = new Yak({
       content: req.body.content,
+      author: user.email,
       geometry: {
         type: "Point",
         coordinates: [parseFloat(req.body.lng), parseFloat(req.body.lat)]
