@@ -44,8 +44,6 @@ router.post("/", (req, res) => {
                });
             }
          );
-
-         console.log(user.id);
       });
    });
 });
