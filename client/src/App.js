@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { geolocated } from "react-geolocated";
+import { withRouter, Route } from "react-router-dom";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import useForm from "./customHooks/useForm";
@@ -12,7 +13,7 @@ import "./App.css";
 const App = (props) => {
   const [currUser, setCurrUser] = useState({});
   const loginForm = useForm((vals) => handleLogin(vals));
-  // const signupForm = useForm((vals) => setCurrUser(vals));
+  const signupForm = useForm((vals) => setCurrUser(vals));
   const [yaks, setYaks] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -110,18 +111,27 @@ const App = (props) => {
     );
   }
 
+  // Component funcs used to to clean up render
+  const LoginPage = () => (
+    <Login
+      handleChange={loginForm.handleChange}
+      handleSubmit={loginForm.handleSubmit}
+      values={loginForm.authFormVals}
+    />
+  );
+
+  const SignUpPage = () => (
+    <SignUp
+      handleChange={signupForm.handleChange}
+      handleSubmit={signupForm.handleSubmit}
+      values={signupForm.authFormVals}
+    />
+  );
+
   return (
     <div className="App">
-      <Login
-        handleChange={loginForm.handleChange}
-        handleSubmit={loginForm.handleSubmit}
-        values={loginForm.authFormVals}
-      />
-      {/* <SignUp
-        handleChange={signupForm.handleChange}
-        handleSubmit={signupForm.handleSubmit}
-        values={signupForm.authFormVals}
-      /> */}
+      <Route exact path="/login" component={LoginPage} />
+      <Route exact path="/signup" component={SignUpPage} />
     </div>
   );
 };
@@ -132,4 +142,4 @@ export default geolocated({
     enableHighAccuracy: false
   },
   userDecisionTimeout: 5000
-})(App);
+})(withRouter(App));
