@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { geolocated } from "react-geolocated";
-import { withRouter, Route } from "react-router-dom";
+import { withRouter, Route, Redirect } from "react-router-dom";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import useForm from "./customHooks/useForm";
 import loginService from "./services/login";
+import signupService from "./services/signup";
 import getYaks from "./services/getYaks";
 import "./App.css";
 
@@ -13,7 +14,7 @@ import "./App.css";
 const App = (props) => {
   const [currUser, setCurrUser] = useState({});
   const loginForm = useForm((vals) => handleLogin(vals));
-  const signupForm = useForm((vals) => setCurrUser(vals));
+  const signupForm = useForm((vals) => handleSignUp(vals));
   const [yaks, setYaks] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -60,38 +61,62 @@ const App = (props) => {
         password: creds.password
       });
 
-      // ! Pay attention to the structure of the response!!!
-      // ! userData = { token: 324jwaje254q8f, user: { id: jsadf34w34, email: test@gmail.com }}
+      setUserState(userData);
+      setYakState(userData);
+    } catch (err) {
+      console.log(err);
+      alert("Those are not the correct credentials!");
+    }
+  }
 
-      // Sets current user with current location
-      setCurrUser({
-        email: userData.user.email,
-        token: userData.token,
-        lat: props.coords.latitude,
-        lng: props.coords.longitude
+  async function handleSignUp(creds) {
+    try {
+      // Gets server data response
+      const userData = await signupService({
+        email: creds.email,
+        password: creds.password
       });
 
-      // Stores user credentials in localStorage for sign on
-      window.localStorage.setItem(
-        "tik-tak-user",
-        JSON.stringify({
-          email: userData.user.email,
-          lat: props.coords.latitude,
-          lng: props.coords.longitude,
-          token: userData.token
-        })
-      );
-
-      // Get all nearby yaks
-      const newYaksData = await getYaks(userData.token, {
-        lat: props.coords.latitude,
-        lng: props.coords.longitude
-      });
-
-      setYaks(newYaksData.yaks);
+      setUserState(userData);
+      setYakState(userData);
     } catch (err) {
       console.log(err);
     }
+  }
+
+  // Gets all nearby yaks and stores them in state
+  async function setYakState(userData) {
+    const newYaksData = await getYaks(userData.token, {
+      lat: props.coords.latitude,
+      lng: props.coords.longitude
+    });
+
+    setYaks(newYaksData.yaks);
+  }
+
+  // Sets state and local storage with userData
+  function setUserState(userData) {
+    // ! Pay attention to the structure of the response!!!
+    // ! userData = { token: 324jwaje254q8f, user: { id: jsadf34w34, email: test@gmail.com }}
+
+    // Sets current user with current location
+    setCurrUser({
+      email: userData.user.email,
+      token: userData.token,
+      lat: props.coords.latitude,
+      lng: props.coords.longitude
+    });
+
+    // Stores user credentials in localStorage for sign on
+    window.localStorage.setItem(
+      "tik-tak-user",
+      JSON.stringify({
+        email: userData.user.email,
+        lat: props.coords.latitude,
+        lng: props.coords.longitude,
+        token: userData.token
+      })
+    );
   }
 
   // Logs user out and removes all stored data
@@ -112,7 +137,7 @@ const App = (props) => {
   }
 
   // Component funcs used to to clean up render
-  const LoginPage = () => (
+  const LoginPage = (
     <Login
       handleChange={loginForm.handleChange}
       handleSubmit={loginForm.handleSubmit}
@@ -120,7 +145,7 @@ const App = (props) => {
     />
   );
 
-  const SignUpPage = () => (
+  const SignUpPage = (
     <SignUp
       handleChange={signupForm.handleChange}
       handleSubmit={signupForm.handleSubmit}
@@ -130,8 +155,14 @@ const App = (props) => {
 
   return (
     <div className="App">
-      <Route exact path="/login" component={LoginPage} />
-      <Route exact path="/signup" component={SignUpPage} />
+      {/* {currUser === null ? <Redirect to="/" /> : <Redirect to="/dashboard" />} */}
+      <Route
+        exact
+        path="/dashboard"
+        render={() => <h1>This is the dashboard</h1>}
+      />
+      <Route exact path="/login" render={() => LoginPage} />
+      <Route exact path="/signup" render={() => SignUpPage} />
     </div>
   );
 };
