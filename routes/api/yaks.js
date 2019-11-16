@@ -16,7 +16,7 @@ router.get("/", auth, async (req, res) => {
     const localYakList = await Yak.where("geometry").near({
       center: {
         type: "Point",
-        coordinates: [parseFloat(req.body.lng), parseFloat(req.body.lat)]
+        coordinates: [parseFloat(req.query.lng), parseFloat(req.query.lat)]
       },
       maxDistance: 8046.72, // 5 miles
       spherical: true
@@ -67,14 +67,10 @@ router.delete("/", auth, async (req, res) => {
     // Find current user
     const user = User.findById(req.user.id);
 
-    // Delete comments from Yak
-    // const yak = Yak.findById({id: req.params.id});
-    // yak.
-
     // Delete yak and filter from user
     await Yak.deleteOne({ id: req.params.id });
 
-    user.posts = user.posts.filter(yak => yak.id != req.params.id);
+    user.posts = user.posts.filter((yak) => yak.id != req.params.id);
 
     await user.save();
     res.status(200).json({ success: true });
