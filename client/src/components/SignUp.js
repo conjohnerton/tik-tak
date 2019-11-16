@@ -3,8 +3,6 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
@@ -12,6 +10,8 @@ import Grid from "@material-ui/core/Grid";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+
+// TODO: Make a "verify password" text field, make sure user can't submit without
 
 function Copyright() {
   return (
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function SignInSide({ handleChange, handleSubmit, values }) {
+export default function SignUp({ handleChange, handleSubmit, values }) {
   const classes = useStyles();
 
   return (
@@ -68,7 +68,7 @@ export default function SignInSide({ handleChange, handleSubmit, values }) {
             <VpnKeyIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign Up
           </Typography>
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField
@@ -95,10 +95,6 @@ export default function SignInSide({ handleChange, handleSubmit, values }) {
               autoComplete="current-password"
               onChange={handleChange}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
@@ -106,7 +102,7 @@ export default function SignInSide({ handleChange, handleSubmit, values }) {
               color="primary"
               className={classes.submit}
             >
-              Sign In
+              Sign up
             </Button>
             <Grid container>
               <Grid item>
