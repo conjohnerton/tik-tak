@@ -126,6 +126,7 @@ const App = (props) => {
   );
 };
 
+// Export App with geolocation
 export default geolocated({
   positionOptions: {
     enableHighAccuracy: false
