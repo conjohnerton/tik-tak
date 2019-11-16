@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { geolocated } from "react-geolocated";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
@@ -14,8 +14,45 @@ const App = (props) => {
   const loginForm = useForm((vals) => handleLogin(vals));
   // const signupForm = useForm((vals) => setCurrUser(vals));
   const [yaks, setYaks] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // TODO: Get all nearby yaks using current location
+  // Checks if user has existing token in localStorage and signs user in if so
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    // Restores user state, if in localStorage
+    async function fetchUserandYaks() {
+      const loggedUserJSON = window.localStorage.getItem("tik-tak-user");
+
+      if (loggedUserJSON) {
+        try {
+          const user = JSON.parse(loggedUserJSON);
+
+          // If lat and lng are saved, render from past location
+          if (user && user.lat && user.lng) {
+            console.log(user);
+            const userData = await getYaks(user.token, {
+              lat: user.lat,
+              lng: user.lng
+            });
+
+            setYaks(userData.yaks);
+          }
+
+          setCurrUser(user);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }
+
+    // ! This function is defined to be immediately invoked
+    // ! because useEffect can not be async
+    fetchUserandYaks();
+  }, []);
 
   // Logs user in
   async function handleLogin(creds) {
@@ -40,7 +77,12 @@ const App = (props) => {
       // Stores user credentials in localStorage for sign on
       window.localStorage.setItem(
         "tik-tak-user",
-        JSON.stringify({ email: userData.user.email, token: userData.token })
+        JSON.stringify({
+          email: userData.user.email,
+          lat: props.coords.latitude,
+          lng: props.coords.longitude,
+          token: userData.token
+        })
       );
 
       // Get all nearby yaks

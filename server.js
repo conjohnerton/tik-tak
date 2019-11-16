@@ -12,17 +12,17 @@ app.use(express.static(path.join(__dirname, "client/build")));
 // Connect to the DB through a super secret thingy doohickey!
 const url = config.get("mongoURI");
 mongoose
-   .connect(url, {
-      useUnifiedTopology: true,
-      useNewUrlParser: true,
-      useCreateIndex: true
-   })
-   .then(() => {
-      console.log(`Connected to MongoDB url: ${url}`);
-   })
-   .catch((error) => {
-      console.log("error connecting to MongoDB:", error.message);
-   });
+  .connect(url, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useCreateIndex: true
+  })
+  .then(() => {
+    console.log(`Connected to MongoDB url: ${url}`);
+  })
+  .catch((error) => {
+    console.log("error connecting to MongoDB:", error.message);
+  });
 
 app.use("/api/yaks", require("./routes/api/yaks"));
 app.use("/api/comments", require("./routes/api/comments"));
@@ -31,7 +31,7 @@ app.use("/api/login", require("./routes/api/login"));
 
 // Delivers the initial index.html for React to manipulate
 app.get("*", (req, res) => {
-   res.sendFile(path.join(__dirname + "/client/build/index.html"));
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
 
 // Makes the server listen for requests... creepy!

@@ -31,6 +31,13 @@ const YakSchema = new Schema({
   createdAt: { type: Date, expires: "24h", default: Date.now } // one of these
 });
 
+// Deletes the geometry field from returns JSON
+YakSchema.methods.toJSON = function() {
+  const yak = this.toObject();
+  delete yak.geometry;
+  return yak;
+};
+
 YakSchema.index({ geometry: "2dsphere" });
 
 module.exports = Yak = mongoose.model("Yak", YakSchema);
