@@ -95,10 +95,6 @@ export default function Login({ handleChange, handleSubmit, values }) {
               id="password"
               onChange={handleChange}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth

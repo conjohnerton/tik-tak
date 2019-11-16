@@ -4,20 +4,21 @@ import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import useForm from "./customHooks/useForm";
 import loginService from "./services/login";
+import getYaks from "./services/getYaks";
 import "./App.css";
 
-// ???????????????TODO: Figure out why geolocated is switching on and off
+// !!!When doing async calls, you can't assume that state will be up to date always!
 
 const App = (props) => {
   const [currUser, setCurrUser] = useState({});
-  const loginForm = useForm((vals) => loginUser(vals));
+  const loginForm = useForm((vals) => handleLogin(vals));
   // const signupForm = useForm((vals) => setCurrUser(vals));
   const [yaks, setYaks] = useState([]);
 
-  // TODO: Gets all nearby yaks using current location
+  // TODO: Get all nearby yaks using current location
 
   // Logs user in
-  async function loginUser(creds) {
+  async function handleLogin(creds) {
     try {
       // Gets server data response
       const userData = await loginService({
@@ -25,20 +26,31 @@ const App = (props) => {
         password: creds.password
       });
 
-      // Pay attention to the structure of the response!!!
-      // userData = { token: 324jwaje254q8f, user: { id: jsadf34w34, email: test@gmail.com }}
+      // ! Pay attention to the structure of the response!!!
+      // ! userData = { token: 324jwaje254q8f, user: { id: jsadf34w34, email: test@gmail.com }}
 
-      // Sets current user then adds to localStorage
-      setCurrUser({ email: userData.user.email, token: userData.token });
+      // Sets current user with current location
+      setCurrUser({
+        email: userData.user.email,
+        token: userData.token,
+        lat: props.coords.latitude,
+        lng: props.coords.longitude
+      });
 
+      // Stores user credentials in localStorage for sign on
       window.localStorage.setItem(
         "tik-tak-user",
         JSON.stringify({ email: userData.user.email, token: userData.token })
       );
 
-      // TODO: Get all the nearby yaks from server
+      // Get all nearby yaks
+      const newYaksData = await getYaks(userData.token, {
+        lat: props.coords.latitude,
+        lng: props.coords.longitude
+      });
+
+      setYaks(newYaksData.yaks);
     } catch (err) {
-      alert(err);
       console.log(err);
     }
   }
@@ -49,6 +61,16 @@ const App = (props) => {
     setCurrUser(null);
     setYaks([]);
   };
+
+  // Renders error message when location not enabled
+  if (!props.isGeolocationEnabled) {
+    return (
+      <div>
+        This app uses your current location to gather all posts from folks
+        around you! Please enable location services!
+      </div>
+    );
+  }
 
   return (
     <div className="App">
