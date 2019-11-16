@@ -18,6 +18,7 @@ const App = (props) => {
 
   // Checks if user has existing token in localStorage and signs user in if so
   useEffect(() => {
+    // Sets loading, for User Experience purposes
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -25,23 +26,18 @@ const App = (props) => {
 
     // Restores user state, if in localStorage
     async function fetchUserandYaks() {
-      const loggedUserJSON = window.localStorage.getItem("tik-tak-user");
+      // Parse item from localStorage
+      const user = JSON.parse(window.localStorage.getItem("tik-tak-user"));
 
-      if (loggedUserJSON) {
+      // If user, lat, and lng are saved, render from past location
+      if (user && user.lat && user.lng) {
         try {
-          const user = JSON.parse(loggedUserJSON);
+          const userData = await getYaks(user.token, {
+            lat: user.lat,
+            lng: user.lng
+          });
 
-          // If lat and lng are saved, render from past location
-          if (user && user.lat && user.lng) {
-            console.log(user);
-            const userData = await getYaks(user.token, {
-              lat: user.lat,
-              lng: user.lng
-            });
-
-            setYaks(userData.yaks);
-          }
-
+          setYaks(userData.yaks);
           setCurrUser(user);
         } catch (err) {
           console.log(err);
@@ -50,11 +46,11 @@ const App = (props) => {
     }
 
     // ! This function is defined to be immediately invoked
-    // ! because useEffect can not be async
+    // ! because useEffect can not be async, but functions within can be
     fetchUserandYaks();
   }, []);
 
-  // Logs user in
+  // Logs user in and gets their nearby yaks
   async function handleLogin(creds) {
     try {
       // Gets server data response
@@ -97,7 +93,7 @@ const App = (props) => {
     }
   }
 
-  // Logs user out and removes all stored user data
+  // Logs user out and removes all stored data
   const handleLogout = () => {
     window.localStorage.removeItem("tik-tak-user");
     setCurrUser(null);
