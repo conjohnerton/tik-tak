@@ -3,10 +3,12 @@ import { geolocated } from "react-geolocated";
 import { withRouter, Route, Redirect } from "react-router-dom";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
+import Dashboard from "./components/Dashboard";
 import useForm from "./customHooks/useForm";
 import loginService from "./services/login";
 import signupService from "./services/signup";
 import getYaks from "./services/getYaks";
+import addYak from "./services/addYak";
 import "./App.css";
 
 // !!!When doing async calls, you can't assume that state will be up to date always!
@@ -15,74 +17,9 @@ const App = (props) => {
   const [currUser, setCurrUser] = useState({});
   const loginForm = useForm((vals) => handleLogin(vals));
   const signupForm = useForm((vals) => handleSignUp(vals));
+  const yakForm = useForm((vals) => handleYakAdd(vals));
   const [yaks, setYaks] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  // Checks if user has existing token in localStorage and signs user in if so
-  useEffect(() => {
-    // Sets loading, for User Experience purposes
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-
-    // Restores user state, if in localStorage
-    async function fetchUserandYaks() {
-      // Parse item from localStorage
-      const user = JSON.parse(window.localStorage.getItem("tik-tak-user"));
-
-      // If user, lat, and lng are saved, render from past location
-      if (user && user.lat && user.lng) {
-        try {
-          const userData = await getYaks(user.token, {
-            lat: user.lat,
-            lng: user.lng
-          });
-
-          setYaks(userData.yaks);
-          setCurrUser(user);
-        } catch (err) {
-          console.log(err);
-        }
-      }
-    }
-
-    // ! This function is defined to be immediately invoked
-    // ! because useEffect can not be async, but functions within can be
-    fetchUserandYaks();
-  }, []);
-
-  // Logs user in and gets their nearby yaks
-  async function handleLogin(creds) {
-    try {
-      // Gets server data response
-      const userData = await loginService({
-        email: creds.email,
-        password: creds.password
-      });
-
-      setUserState(userData);
-      setYakState(userData);
-    } catch (err) {
-      console.log(err);
-      alert("Those are not the correct credentials!");
-    }
-  }
-
-  async function handleSignUp(creds) {
-    try {
-      // Gets server data response
-      const userData = await signupService({
-        email: creds.email,
-        password: creds.password
-      });
-
-      setUserState(userData);
-      setYakState(userData);
-    } catch (err) {
-      console.log(err);
-    }
-  }
 
   // Gets all nearby yaks and stores them in state
   async function setYakState(userData) {
@@ -119,12 +56,100 @@ const App = (props) => {
     );
   }
 
+  // Sends yak to server and adds to state
+  async function handleYakAdd(yakData) {
+    try {
+      // Send yak form data to server
+      const response = await addYak(currUser.token, {
+        content: yakData.content,
+        lat: props.coords.latitude,
+        lng: props.coords.longitude
+      });
+
+      if (response.success) {
+        setYaks(yaks.concat({ ...yakData, id: response.newYak._id }));
+        props.history.push("/dashboard");
+      } else {
+        alert("We couldn't add that yak.");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Logs user in and gets their nearby yaks
+  async function handleLogin(creds) {
+    try {
+      // Gets server data response
+      const userData = await loginService({
+        email: creds.email,
+        password: creds.password
+      });
+
+      setUserState(userData);
+      setYakState(userData);
+    } catch (err) {
+      console.log(err);
+      alert("Those are not the correct credentials!");
+    }
+  }
+
+  // Registers new user and saves to localStorage
+  async function handleSignUp(creds) {
+    try {
+      // Gets server data response
+      const userData = await signupService({
+        email: creds.email,
+        password: creds.password
+      });
+
+      setUserState(userData);
+      setYakState(userData);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   // Logs user out and removes all stored data
   const handleLogout = () => {
     window.localStorage.removeItem("tik-tak-user");
     setCurrUser(null);
     setYaks([]);
   };
+
+  // Checks if user has existing token in localStorage and signs user in if so
+  useEffect(() => {
+    // Sets loading, for User Experience purposes
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    // Restores user state, if in localStorage
+    async function fetchUserandYaks() {
+      // Parse item from localStorage
+      const user = JSON.parse(window.localStorage.getItem("tik-tak-user"));
+
+      // If user, lat, and lng are saved, render from past location
+      if (user && user.lat && user.lng) {
+        try {
+          const userData = await getYaks(user.token, {
+            lat: user.lat,
+            lng: user.lng
+          });
+
+          setYaks(userData.yaks);
+          setCurrUser(user);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }
+
+    // ! This function is defined to be immediately invoked
+    // ! because useEffect can not be async, but functions within can be
+    fetchUserandYaks();
+  }, []);
 
   // Renders error message when location not enabled
   if (!props.isGeolocationEnabled) {
@@ -155,11 +180,16 @@ const App = (props) => {
 
   return (
     <div className="App">
-      {/* {currUser === null ? <Redirect to="/" /> : <Redirect to="/dashboard" />} */}
+      {/* <AddPopup /> */}
+      {/* {currUser === null ? (
+        <Redirect to="/login" />
+      ) : (
+        <Redirect to="/dashboard" />
+      )} */}
       <Route
         exact
         path="/dashboard"
-        render={() => <h1>This is the dashboard</h1>}
+        render={() => <Dashboard addActions={yakForm} />}
       />
       <Route exact path="/login" render={() => LoginPage} />
       <Route exact path="/signup" render={() => SignUpPage} />
