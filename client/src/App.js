@@ -180,16 +180,15 @@ const App = (props) => {
 
   return (
     <div className="App">
-      {/* <AddPopup /> */}
-      {/* {currUser === null ? (
+      {currUser === null ? (
         <Redirect to="/login" />
       ) : (
         <Redirect to="/dashboard" />
-      )} */}
+      )}
       <Route
         exact
         path="/dashboard"
-        render={() => <Dashboard addActions={yakForm} />}
+        render={() => <Dashboard yaks={yaks} addActions={yakForm} />}
       />
       <Route exact path="/login" render={() => LoginPage} />
       <Route exact path="/signup" render={() => SignUpPage} />
