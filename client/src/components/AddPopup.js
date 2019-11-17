@@ -7,8 +7,6 @@ import {
   DialogContent,
   DialogContentText,
   TextField,
-  Typography,
-  Link,
   Button
 } from "@material-ui/core";
 
