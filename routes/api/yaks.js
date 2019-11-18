@@ -62,13 +62,14 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
-router.delete("/", auth, async (req, res) => {
+// TODO: Reject delete if user doesn't own yak
+router.delete("/:id", auth, async (req, res) => {
   try {
     // Find current user
-    const user = User.findById(req.user.id);
+    const user = await User.findById(req.user.id);
 
     // Delete yak and filter from user
-    await Yak.deleteOne({ id: req.params.id });
+    await Yak.findByIdAndDelete(req.params.id);
 
     user.posts = user.posts.filter((yak) => yak.id != req.params.id);
 

@@ -9,12 +9,13 @@ import loginService from "./services/login";
 import signupService from "./services/signup";
 import getYaks from "./services/getYaks";
 import addYak from "./services/addYak";
+import deleteYak from "./services/deleteYak";
 import "./App.css";
 
 // !!!When doing async calls, you can't assume that state will be up to date always!
 
 const App = (props) => {
-  const [currUser, setCurrUser] = useState({});
+  const [currUser, setCurrUser] = useState(null);
   const loginForm = useForm((vals) => handleLogin(vals));
   const signupForm = useForm((vals) => handleSignUp(vals));
   const yakForm = useForm((vals) => handleYakAdd(vals));
@@ -66,12 +67,26 @@ const App = (props) => {
         lng: props.coords.longitude
       });
 
-      // Adds the returned yak object on successful server add
+      // Adds the returned yak object on successful server addd
       if (response.success) {
         setYaks(yaks.concat(response.newYak));
         props.history.push("/dashboard");
       } else {
         alert("We couldn't add that yak.");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function handleYakDelete(yakID) {
+    try {
+      const response = await deleteYak(currUser.token, yakID);
+
+      console.log(response);
+
+      if (response.success) {
+        setYaks(yaks.filter((yak) => yak._id !== yakID));
       }
     } catch (err) {
       console.log(err);
@@ -189,7 +204,15 @@ const App = (props) => {
       <Route
         exact
         path="/dashboard"
-        render={() => <Dashboard yaks={yaks} addActions={yakForm} />}
+        render={() => (
+          <Dashboard
+            deleteYak={handleYakDelete}
+            yaks={yaks}
+            addActions={yakForm}
+            history={props.history}
+            handleLogout={handleLogout}
+          />
+        )}
       />
       <Route exact path="/login" render={() => LoginPage} />
       <Route exact path="/signup" render={() => SignUpPage} />

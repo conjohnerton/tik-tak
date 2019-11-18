@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function YakCard({ yak }) {
+function YakCard({ yak, deleteYak }) {
   const classes = useStyles();
 
   return (
@@ -65,7 +65,11 @@ function YakCard({ yak }) {
               </Paper>
             </Grid>
             <Grid item>
-              <Typography variant="body2" style={{ cursor: "pointer" }}>
+              <Typography
+                onClick={() => deleteYak(yak._id)}
+                variant="body2"
+                style={{ cursor: "pointer" }}
+              >
                 Remove
               </Typography>
             </Grid>
