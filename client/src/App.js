@@ -66,8 +66,9 @@ const App = (props) => {
         lng: props.coords.longitude
       });
 
+      // Adds the returned yak object on successful server add
       if (response.success) {
-        setYaks(yaks.concat({ ...yakData, id: response.newYak._id }));
+        setYaks(yaks.concat(response.newYak));
         props.history.push("/dashboard");
       } else {
         alert("We couldn't add that yak.");
