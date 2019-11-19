@@ -10,6 +10,7 @@ import signupService from "./services/signup";
 import getYaks from "./services/getYaks";
 import addYak from "./services/addYak";
 import deleteYak from "./services/deleteYak";
+import shuffle from "./helpers/shuffle";
 import "./App.css";
 
 // !!!When doing async calls, you can't assume that state will be up to date always!
@@ -38,7 +39,7 @@ const App = (props) => {
         lng: props.coords.longitude
       });
 
-      setYaks(newYaksData.yaks);
+      setYaks(shuffle(newYaksData.yaks));
     } catch (err) {
       setErrorMessage("We couldn't get the yaks near you, try again later.");
     }
