@@ -1,9 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
@@ -17,7 +17,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="tik-tak-app.com">
+      <Link style={{ textDecoration: "none" }} to="/login">
         tik-tak
       </Link>{" "}
       {new Date().getFullYear()}
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function SignUp({ handleChange, handleSubmit, values }) {
+export default function SignUp({ handleChange, handleSubmit, error }) {
   const classes = useStyles();
 
   return (
@@ -67,9 +67,14 @@ export default function SignUp({ handleChange, handleSubmit, values }) {
           <Avatar className={classes.avatar}>
             <VpnKeyIcon />
           </Avatar>
+
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
+
+          {/* Error message */}
+          {error != null ? <Typography color="error">{error}</Typography> : ""}
+
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
@@ -95,6 +100,7 @@ export default function SignUp({ handleChange, handleSubmit, values }) {
               autoComplete="current-password"
               onChange={handleChange}
             />
+
             <Button
               type="submit"
               fullWidth
@@ -104,13 +110,15 @@ export default function SignUp({ handleChange, handleSubmit, values }) {
             >
               Sign up
             </Button>
+
             <Grid container>
               <Grid item>
-                <Link href="tik-tak-app.com/login" variant="body2">
+                <Link style={{ textDecoration: "none" }} to="/login">
                   {"Already have an account? Log In"}
                 </Link>
               </Grid>
             </Grid>
+
             <Box mt={5}>
               <Copyright />
             </Box>

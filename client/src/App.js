@@ -21,15 +21,27 @@ const App = (props) => {
   const yakForm = useForm((vals) => handleYakAdd(vals));
   const [yaks, setYaks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // Sets error message for 3 seconds
+  function setErrorMessage(message) {
+    setError(message);
+
+    setTimeout(1000, () => setError(null));
+  }
 
   // Gets all nearby yaks and stores them in state
   async function setYakState(userData) {
-    const newYaksData = await getYaks(userData.token, {
-      lat: props.coords.latitude,
-      lng: props.coords.longitude
-    });
+    try {
+      const newYaksData = await getYaks(userData.token, {
+        lat: props.coords.latitude,
+        lng: props.coords.longitude
+      });
 
-    setYaks(newYaksData.yaks);
+      setYaks(newYaksData.yaks);
+    } catch (err) {
+      setErrorMessage("We couldn't get the yaks near you, try again later.");
+    }
   }
 
   // Sets state and local storage with userData
@@ -75,21 +87,22 @@ const App = (props) => {
         alert("We couldn't add that yak.");
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
+      setErrorMessage("We can't add that right now, try again later.");
     }
   }
 
+  // Send delete request and filter yak from current state
   async function handleYakDelete(yakID) {
     try {
       const response = await deleteYak(currUser.token, yakID);
-
-      console.log(response);
 
       if (response.success) {
         setYaks(yaks.filter((yak) => yak._id !== yakID));
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
+      setErrorMessage("We couldn't delete that, try again later.");
     }
   }
 
@@ -105,8 +118,7 @@ const App = (props) => {
       setUserState(userData);
       setYakState(userData);
     } catch (err) {
-      console.log(err);
-      alert("Those are not the correct credentials!");
+      setErrorMessage("Those are not the correct credentials!");
     }
   }
 
@@ -122,7 +134,9 @@ const App = (props) => {
       setUserState(userData);
       setYakState(userData);
     } catch (err) {
-      console.log(err);
+      setErrorMessage(
+        "We could not sign you up, try again later with a different email"
+      );
     }
   }
 
@@ -157,7 +171,7 @@ const App = (props) => {
           setYaks(userData.yaks);
           setCurrUser(user);
         } catch (err) {
-          console.log(err);
+          setError("Our servers are under maintence, come back a bit later.");
         }
       }
     }
@@ -180,6 +194,7 @@ const App = (props) => {
   // Component funcs used to to clean up render
   const LoginPage = (
     <Login
+      error={error}
       handleChange={loginForm.handleChange}
       handleSubmit={loginForm.handleSubmit}
       values={loginForm.authFormVals}
@@ -188,6 +203,7 @@ const App = (props) => {
 
   const SignUpPage = (
     <SignUp
+      error={error}
       handleChange={signupForm.handleChange}
       handleSubmit={signupForm.handleSubmit}
       values={signupForm.authFormVals}
@@ -206,6 +222,7 @@ const App = (props) => {
         path="/dashboard"
         render={() => (
           <Dashboard
+            error={error}
             deleteYak={handleYakDelete}
             yaks={yaks}
             addActions={yakForm}

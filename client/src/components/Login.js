@@ -3,7 +3,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
+import { Link } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
@@ -15,7 +15,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="tik-tak-app.com">
+      <Link style={{ textDecoration: "none" }} to="/login">
         tik-tak
       </Link>{" "}
       {new Date().getFullYear()}
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Login({ handleChange, handleSubmit, values }) {
+export default function Login({ handleChange, handleSubmit, error }) {
   const classes = useStyles();
 
   return (
@@ -68,6 +68,10 @@ export default function Login({ handleChange, handleSubmit, values }) {
           <Typography component="h1" variant="h5">
             Log in
           </Typography>
+
+          {/* Error message */}
+          {error != null ? <Typography color="error">{error}</Typography> : ""}
+
           <form className={classes.form} onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
@@ -99,12 +103,12 @@ export default function Login({ handleChange, handleSubmit, values }) {
               color="primary"
               className={classes.submit}
             >
-              Sign Up
+              Log in
             </Button>
             <Grid container>
               <Grid item flex-direction="">
-                <Link href="tik-tak-app.com/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                <Link style={{ textDecoration: "none" }} to="/signup">
+                  Don't have an account? Sign Up
                 </Link>
               </Grid>
             </Grid>
