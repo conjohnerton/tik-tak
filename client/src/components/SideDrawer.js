@@ -1,4 +1,5 @@
 import React from "react";
+import AddPopup from "./AddPopup";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -9,6 +10,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
+import EditIcon from "@material-ui/icons/Edit";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -85,7 +87,9 @@ export default function MiniDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [openAdd, setOpenAdd] = React.useState(false);
 
+  // The next two are drawer actions
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -93,6 +97,23 @@ export default function MiniDrawer(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  // The next three are Add Popup actions
+  // Opens popup
+  const handleAddOpen = () => {
+    setOpenAdd(true);
+  };
+
+  // Closes popup
+  const handleAddClose = () => {
+    setOpenAdd(false);
+  };
+
+  // Closes popup and submits new yak
+  function handleCloseAndSubmit(content) {
+    handleAddClose();
+    props.addActions.handleSubmit(content);
+  }
 
   return (
     <div className={classes.root}>
@@ -120,6 +141,7 @@ export default function MiniDrawer(props) {
           </Typography>
         </Toolbar>
       </AppBar>
+
       <Drawer
         variant="permanent"
         className={clsx(classes.drawer, {
@@ -143,7 +165,9 @@ export default function MiniDrawer(props) {
             )}
           </IconButton>
         </div>
+
         <Divider />
+
         <List>
           <ListItem
             button
@@ -153,10 +177,31 @@ export default function MiniDrawer(props) {
             <ListItemIcon>
               <InboxIcon />
             </ListItemIcon>
+
             <ListItemText primary={"Dashboard"} />
           </ListItem>
         </List>
+
         <Divider />
+
+        <List>
+          <ListItem button key={"Add Post"} onClick={handleAddOpen}>
+            <ListItemIcon>
+              <AddPopup
+                handleChange={props.addActions.handleChange}
+                handleClickOpen={handleAddOpen}
+                handleClose={handleAddClose}
+                handleCloseAndSubmit={handleCloseAndSubmit}
+                open={openAdd}
+              />
+            </ListItemIcon>
+
+            <ListItemText primary={"Add Post"} />
+          </ListItem>
+        </List>
+
+        <Divider />
+
         <List>
           <ListItem button key={"Log out"} onClick={props.handleLogout}>
             <ListItemIcon>

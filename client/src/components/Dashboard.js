@@ -26,22 +26,12 @@ const Dashboard = (props) => {
   ));
 
   return (
-    <SideDrawer handleLogout={props.handleLogout} history={props.history}>
-      <Grid className={classes.root}>
-        {shownYaks}
-        <Grid
-          container
-          direction="row"
-          justify="flex-end"
-          style={{ marginRight: "1em" }}
-        >
-          <AddPopup
-            handleChange={props.addActions.handleChange}
-            handleSubmit={props.addActions.handleSubmit}
-            formValues={props.addActions.authFormValues}
-          />
-        </Grid>
-      </Grid>
+    <SideDrawer
+      addActions={props.addActions}
+      handleLogout={props.handleLogout}
+      history={props.history}
+    >
+      <Grid className={classes.root}>{shownYaks}</Grid>
     </SideDrawer>
   );
 };

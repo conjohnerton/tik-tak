@@ -38,43 +38,31 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function SignIn({ handleSubmit, handleChange, formValues }) {
+export default function SignIn({
+  handleChange,
+  handleClickOpen,
+  handleClose,
+  handleCloseAndSubmit,
+  open
+}) {
   const classes = useStyles();
-
-  const [open, setOpen] = React.useState(false);
-
-  // Opens popup
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  // Closes popup
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  // Closes popup and submits new yak
-  function handleCloseAndSubmit(content) {
-    handleClose();
-    handleSubmit(content);
-  }
 
   return (
     <div>
-      <AddButton
-        openDialog={handleClickOpen}
-        className={classes.floatingButton}
-      />
+      <AddButton className={classes.floatingButton} />
+
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Create a Post</DialogTitle>
+
         <DialogContent>
           <DialogContentText>
             When you create a post, everybody near you will see it, instantly!
           </DialogContentText>
+
           <form
             className={classes.form}
             noValidate
