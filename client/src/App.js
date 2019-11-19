@@ -211,6 +211,7 @@ const App = (props) => {
             addActions={yakForm}
             history={props.history}
             handleLogout={handleLogout}
+            currUser={currUser}
           />
         )}
       />

@@ -17,7 +17,12 @@ const Dashboard = (props) => {
 
   // Create list of yak card
   const shownYaks = props.yaks.map((yak) => (
-    <YakCard yak={yak} deleteYak={props.deleteYak} key={yak._id} />
+    <YakCard
+      yak={yak}
+      deleteYak={props.deleteYak}
+      key={yak._id}
+      currUser={props.currUser}
+    />
   ));
 
   return (
