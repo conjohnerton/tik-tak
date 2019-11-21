@@ -6,7 +6,9 @@ const useForm = (callback) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const vals = authFormVals;
+
     setValues({});
+
     callback(vals);
   };
 
@@ -19,10 +21,16 @@ const useForm = (callback) => {
     }));
   };
 
+  // Reverts form state if there is an error on submit
+  const revertChange = (values) => {
+    setValues(values);
+  };
+
   return {
     handleSubmit,
     handleChange,
-    authFormVals
+    authFormVals,
+    revertChange
   };
 };
 

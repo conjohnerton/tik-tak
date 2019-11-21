@@ -119,6 +119,9 @@ const App = (props) => {
       setUserState(userData);
       setYakState(userData);
     } catch (err) {
+      // Store creds back in form state
+
+      loginForm.revertChange(creds);
       setErrorMessage("Those are not the correct credentials!");
     }
   }
@@ -135,6 +138,8 @@ const App = (props) => {
       setUserState(userData);
       setYakState(userData);
     } catch (err) {
+      // Store creds back in form state
+      signupForm.revertChange(creds);
       setErrorMessage(
         "We could not sign you up, try again later with a different email"
       );
