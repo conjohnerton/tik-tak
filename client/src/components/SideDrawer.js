@@ -10,7 +10,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
-import EditIcon from "@material-ui/icons/Edit";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -99,19 +98,14 @@ export default function MiniDrawer(props) {
   };
 
   // The next three are Add Popup actions
-  // Opens popup
-  const handleAddOpen = () => {
-    setOpenAdd(true);
-  };
-
-  // Closes popup
-  const handleAddClose = () => {
-    setOpenAdd(false);
+  // Toggles add oppup
+  const toggleDialog = () => {
+    setOpenAdd(!openAdd);
   };
 
   // Closes popup and submits new yak
   function handleCloseAndSubmit(content) {
-    handleAddClose();
+    toggleDialog();
     props.addActions.handleSubmit(content);
   }
 
@@ -185,13 +179,12 @@ export default function MiniDrawer(props) {
         <Divider />
 
         <List>
-          <ListItem button key={"Add Post"} onClick={handleAddOpen}>
+          <ListItem button key={"Add Post"} onClick={toggleDialog}>
             <ListItemIcon>
               <AddPopup
                 handleChange={props.addActions.handleChange}
-                handleClickOpen={handleAddOpen}
-                handleClose={handleAddClose}
                 handleCloseAndSubmit={handleCloseAndSubmit}
+                toggleDialog={toggleDialog}
                 open={openAdd}
               />
             </ListItemIcon>

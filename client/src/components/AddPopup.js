@@ -35,15 +35,17 @@ const useStyles = makeStyles((theme) => ({
   },
   floatingButton: {
     margin: theme.spacing(1)
+  },
+  button: {
+    theme: theme.spacing(1)
   }
 }));
 
 export default function SignIn({
   handleChange,
-  handleClickOpen,
-  handleClose,
   handleCloseAndSubmit,
-  open
+  open,
+  toggleDialog
 }) {
   const classes = useStyles();
 
@@ -53,7 +55,7 @@ export default function SignIn({
 
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={toggleDialog}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Create a Post</DialogTitle>
@@ -90,6 +92,15 @@ export default function SignIn({
               Submit
             </Button>
           </form>
+
+          <Button
+            onClick={toggleDialog}
+            fullWidth
+            color="secondary"
+            className={classes.button}
+          >
+            Close
+          </Button>
         </DialogContent>
       </Dialog>
     </div>
