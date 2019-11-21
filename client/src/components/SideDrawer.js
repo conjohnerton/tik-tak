@@ -1,5 +1,5 @@
 import React from "react";
-import AddPopup from "./AddPopup";
+import AddButton from "./AddButton";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -86,7 +86,6 @@ export default function MiniDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [openAdd, setOpenAdd] = React.useState(false);
 
   // The next two are drawer actions
   const handleDrawerOpen = () => {
@@ -96,18 +95,6 @@ export default function MiniDrawer(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-  // The next three are Add Popup actions
-  // Toggles add oppup
-  const toggleDialog = () => {
-    setOpenAdd(!openAdd);
-  };
-
-  // Closes popup and submits new yak
-  function handleCloseAndSubmit(content) {
-    toggleDialog();
-    props.addActions.handleSubmit(content);
-  }
 
   return (
     <div className={classes.root}>
@@ -179,14 +166,9 @@ export default function MiniDrawer(props) {
         <Divider />
 
         <List>
-          <ListItem button key={"Add Post"} onClick={toggleDialog}>
+          <ListItem button key={"Add Post"} onClick={props.openDialog}>
             <ListItemIcon>
-              <AddPopup
-                handleChange={props.addActions.handleChange}
-                handleCloseAndSubmit={handleCloseAndSubmit}
-                toggleDialog={toggleDialog}
-                open={openAdd}
-              />
+              <AddButton />
             </ListItemIcon>
 
             <ListItemText primary={"Add Post"} />

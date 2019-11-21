@@ -45,17 +45,18 @@ export default function SignIn({
   handleChange,
   handleCloseAndSubmit,
   open,
-  toggleDialog
+  closeDialog,
+  openDialog
 }) {
   const classes = useStyles();
 
   return (
     <div>
-      <AddButton className={classes.floatingButton} />
+      {/* <AddButton className={classes.floatingButton} /> */}
 
       <Dialog
         open={open}
-        onClose={toggleDialog}
+        onClose={closeDialog}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Create a Post</DialogTitle>
@@ -91,16 +92,15 @@ export default function SignIn({
             >
               Submit
             </Button>
+            <Button
+              onClick={closeDialog}
+              fullWidth
+              color="secondary"
+              className={classes.button}
+            >
+              Close
+            </Button>
           </form>
-
-          <Button
-            onClick={toggleDialog}
-            fullWidth
-            color="secondary"
-            className={classes.button}
-          >
-            Close
-          </Button>
         </DialogContent>
       </Dialog>
     </div>
