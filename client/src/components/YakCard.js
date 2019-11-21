@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import PersonPinCircleIcon from "@material-ui/icons/PersonPinCircle";
 
@@ -53,13 +54,14 @@ function YakCard({ yak, deleteYak, currUser }) {
   if (currUser.email === yak.author) {
     removeButton = (
       <Grid item>
-        <Typography
+        <Button
           onClick={() => deleteYak(yak._id)}
-          variant="body2"
-          style={{ cursor: "pointer" }}
+          variant="outlined"
+          size="small"
+          color="secondary"
         >
           Remove
-        </Typography>
+        </Button>
       </Grid>
     );
   }
@@ -98,6 +100,8 @@ function YakCard({ yak, deleteYak, currUser }) {
                 </Typography>
               </Paper>
             </Grid>
+
+            {/* Renders the removeButton, if it exists */}
             {removeButton}
           </Grid>
         </Grid>
