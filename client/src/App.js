@@ -28,7 +28,7 @@ const App = (props) => {
   function setErrorMessage(message) {
     setError(message);
 
-    setTimeout(1000, () => setError(null));
+    setTimeout(() => setError(null), 3000);
   }
 
   // Gets all nearby yaks and stores them in state
@@ -204,6 +204,7 @@ const App = (props) => {
 
   const SignUpPage = (
     <SignUp
+      setError={setErrorMessage}
       error={error}
       handleChange={signupForm.handleChange}
       handleSubmit={signupForm.handleSubmit}

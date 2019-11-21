@@ -55,8 +55,29 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function SignUp({ handleChange, handleSubmit, error }) {
+export default function SignUp({
+  handleChange,
+  handleSubmit,
+  values,
+  setError,
+  error
+}) {
   const classes = useStyles();
+
+  // Verifies that password and verify password are matching
+  const checkPasswordMatch = (event) => {
+    event.preventDefault();
+
+    if (values.password !== values.verifyPassword) {
+      // sets err to render the message
+      // setErr(true);
+      // setTimeout(() => setErr(false), 3000);
+      setError("Please enter the same password");
+      return;
+    }
+
+    handleSubmit(event);
+  };
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -75,7 +96,11 @@ export default function SignUp({ handleChange, handleSubmit, error }) {
           {/* Error message */}
           {error != null ? <Typography color="error">{error}</Typography> : ""}
 
-          <form className={classes.form} noValidate onSubmit={handleSubmit}>
+          <form
+            className={classes.form}
+            noValidate
+            onSubmit={checkPasswordMatch}
+          >
             <TextField
               variant="outlined"
               margin="normal"
@@ -97,6 +122,18 @@ export default function SignUp({ handleChange, handleSubmit, error }) {
               label="Password"
               type="password"
               id="password"
+              autoComplete="current-password"
+              onChange={handleChange}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="verifyPassword"
+              label="Verify Password"
+              type="password"
+              id="verifyPassword"
               autoComplete="current-password"
               onChange={handleChange}
             />
