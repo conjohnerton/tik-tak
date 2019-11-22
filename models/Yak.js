@@ -28,7 +28,7 @@ const YakSchema = new Schema({
   geometry: GeoSchema,
 
   // This may need a different expiration time for testing purpose
-  createdAt: { type: Date, expires: "2600", default: Date.now } // one of these
+  createdAt: { type: Date, expires: "86400", default: Date.now } // one of these
 });
 
 // Deletes the geometry field from returns JSON
