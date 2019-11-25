@@ -11,20 +11,9 @@ import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
-// TODO: Make a "verify password" text field, make sure user can't submit without
+import Copyright from "./Copyright";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link style={{ textDecoration: "none" }} to="/login">
-        tik-tak
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+// TODO: Make a "verify password" text field, make sure user can't submit without
 
 const useStyles = makeStyles((theme) => ({
   root: {

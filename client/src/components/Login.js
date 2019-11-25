@@ -11,18 +11,7 @@ import PublicIcon from "@material-ui/icons/Public";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link style={{ textDecoration: "none" }} to="/login">
-        tik-tak
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import Copyright from "./Copyright";
 
 const useStyles = makeStyles((theme) => ({
   root: {
