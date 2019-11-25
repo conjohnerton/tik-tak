@@ -1,7 +1,7 @@
 import React from "react";
 import { Paper, Typography, Grid, Divider, Container } from "@material-ui/core";
 
-export default Comment = ({ splitEmail, content, classes }) => (
+const Comment = ({ splitEmail, content, classes }) => (
   <Paper elevation={2} className={classes.commentArea}>
     <Grid wrap="wrap" direction="row" alignItems="space-between">
       <Container style={{ textAlign: "left", paddingTop: ".3em" }}>
@@ -14,3 +14,5 @@ export default Comment = ({ splitEmail, content, classes }) => (
     </Grid>
   </Paper>
 );
+
+export default Comment;

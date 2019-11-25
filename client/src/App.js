@@ -10,6 +10,7 @@ import signupService from "./services/signup";
 import getYaks from "./services/getYaks";
 import addYak from "./services/addYak";
 import deleteYak from "./services/deleteYak";
+import addComment from "./services/addComment";
 import shuffle from "./helpers/shuffle";
 import "./App.css";
 
@@ -19,6 +20,7 @@ const App = (props) => {
   const [currUser, setCurrUser] = useState(null);
   const loginForm = useForm((vals) => handleLogin(vals));
   const signupForm = useForm((vals) => handleSignUp(vals));
+  const commentForm = useForm((vals) => handleCommentAdd(vals));
   const yakForm = useForm((vals) => handleYakAdd(vals));
   const [yaks, setYaks] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -104,6 +106,20 @@ const App = (props) => {
     } catch (err) {
       // console.log(err);
       setErrorMessage("We couldn't delete that, try again later.");
+    }
+  }
+
+  async function handleCommentAdd(commentData) {
+    try {
+      const comment = await addComment(currUser.token, {
+        content: commentData.content,
+        yakId: commentData.yakId
+      });
+
+      console.log(comment);
+    } catch (err) {
+      console.log("Could not add that comment at this time");
+      setErrorMessage("Could not add that comment at this time");
     }
   }
 
@@ -236,6 +252,7 @@ const App = (props) => {
             history={props.history}
             handleLogout={handleLogout}
             currUser={currUser}
+            commentForm={commentForm}
           />
         )}
       />

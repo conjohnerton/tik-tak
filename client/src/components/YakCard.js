@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+import { Grid, GridItem } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
-import Divider from "@material-ui/core/Divider";
 import Container from "@material-ui/core/Container";
 import Collapse from "@material-ui/core/Collapse";
 import PersonPinCircleIcon from "@material-ui/icons/PersonPinCircle";
 import { lightBlue } from "@material-ui/core/colors";
+import { ExpandLess, ExpandMore } from "@material-ui/icons";
 
 import Comment from "./Comment";
 
@@ -49,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: lightBlue[500],
     color: "#fff"
   },
-  buttonArea: {},
   commentsArea: {
     padding: theme.spacing(2),
     margin: "auto",
@@ -69,6 +68,8 @@ const useStyles = makeStyles((theme) => ({
 function YakCard({ yak, deleteYak, currUser }) {
   const classes = useStyles();
   const splitEmail = stripEmailHandle(yak.author);
+
+  const [open, setOpen] = useState(false);
 
   // Creates a render button if user owns yak
   let removeButton = "";
@@ -135,10 +136,22 @@ function YakCard({ yak, deleteYak, currUser }) {
               </Grid>
 
               <Container className={classes.buttonArea}>
-                {/* Renders the removeButton, if it exists */}
-                {removeButton}
+                <Grid
+                  direction="column"
+                  alignContent="flex-end"
+                  alignItems="flex-end"
+                  justify="flex-end"
+                >
+                  {/* Renders the removeButton, if it exists */}
+                  <Grid item>{removeButton}</Grid>
+                  <Grid item>
+                    <Typography onClick={() => setOpen(!open)}>
+                      Comments {open ? <ExpandLess /> : <ExpandMore />}
+                    </Typography>
+                  </Grid>
+                </Grid>
                 <Collapse
-                  in
+                  in={open}
                   timeout="auto"
                   unmountOnExit
                   className={classes.commentsArea}
