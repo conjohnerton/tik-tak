@@ -5,7 +5,13 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
+import Divider from "@material-ui/core/Divider";
+import Container from "@material-ui/core/Container";
+import Collapse from "@material-ui/core/Collapse";
 import PersonPinCircleIcon from "@material-ui/icons/PersonPinCircle";
+import { lightBlue } from "@material-ui/core/colors";
+
+import Comment from "./Comment";
 
 // Returns a string without the @email.com
 function stripEmailHandle(email) {
@@ -39,9 +45,24 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: "100%"
   },
   avatar: {
-    margin: 10
-    // color: "#fff",
-    // backgroundColor: lightBlue[500]
+    margin: 10,
+    backgroundColor: lightBlue[500],
+    color: "#fff"
+  },
+  buttonArea: {},
+  commentsArea: {
+    padding: theme.spacing(2),
+    margin: "auto",
+    maxWidth: 500,
+    marginBottom: "1em"
+  },
+  commentArea: {
+    marginBottom: "1em"
+  },
+  commentContent: {
+    margin: ".2em .5em 0em .5em",
+    paddingBottom: ".5em",
+    paddingTop: ".2em"
   }
 }));
 
@@ -66,47 +87,70 @@ function YakCard({ yak, deleteYak, currUser }) {
     );
   }
 
+  const comments = yak.comments.map((comment) => (
+    <Comment
+      classes={classes}
+      splitEmail={splitEmail}
+      content={comment.content}
+    />
+  ));
+
   return (
-    <Paper className={classes.paper} elevation={2}>
-      <Grid container spacing={2} direction="column">
-        <Grid item xs={12} sm container>
-          <Grid item xs container direction="column" spacing={2}>
-            <Grid item xs>
-              <Grid
-                item
-                container
-                direction="row"
-                alignItems="center"
-                justify="space-between"
-              >
-                <Avatar className={classes.avatar} variant="rounded">
-                  <PersonPinCircleIcon />
-                </Avatar>
+    <Container>
+      <Paper className={classes.paper} elevation={2}>
+        <Grid container spacing={2} direction="column">
+          <Grid item xs={12} sm container>
+            <Grid item xs container direction="column" spacing={2}>
+              <Grid item xs>
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  alignItems="center"
+                  justify="space-between"
+                >
+                  <Avatar className={classes.avatar} variant="rounded">
+                    <PersonPinCircleIcon />
+                  </Avatar>
 
-                <div>
-                  <Typography variant="body2" color="textPrimary">
-                    Posted by:
-                  </Typography>
+                  <div>
+                    <Typography variant="body2" color="textPrimary">
+                      Posted by:
+                    </Typography>
 
-                  <Typography variant="body2" color="primary">
-                    {splitEmail}
+                    <Typography variant="body2" color="primary">
+                      {splitEmail}
+                    </Typography>
+                  </div>
+                </Grid>
+
+                <Paper className={classes.paperText} elevation={2}>
+                  <Typography
+                    variant="body2"
+                    style={{ wordWrap: "break-word" }}
+                  >
+                    {yak.content}
                   </Typography>
-                </div>
+                </Paper>
               </Grid>
 
-              <Paper className={classes.paperText} elevation={2}>
-                <Typography variant="body2" style={{ wordWrap: "break-word" }}>
-                  {yak.content}
-                </Typography>
-              </Paper>
+              <Container className={classes.buttonArea}>
+                {/* Renders the removeButton, if it exists */}
+                {removeButton}
+                <Collapse
+                  in
+                  timeout="auto"
+                  unmountOnExit
+                  className={classes.commentsArea}
+                >
+                  {comments}
+                </Collapse>
+              </Container>
             </Grid>
-
-            {/* Renders the removeButton, if it exists */}
-            {removeButton}
           </Grid>
         </Grid>
-      </Grid>
-    </Paper>
+      </Paper>
+    </Container>
   );
 }
 
