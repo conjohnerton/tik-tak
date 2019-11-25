@@ -14,8 +14,8 @@ const User = require("../../models/User");
 router.get("/", auth, (req, res) => {
   User.findById(req.user.id)
     .populate("comments")
-    .then(user => res.json(user))
-    .catch(err => res.json(err));
+    .then((user) => res.json(user))
+    .catch((err) => res.json(err));
 });
 
 //router.get("/search/:id", auth, (req, res) => {});
@@ -30,15 +30,28 @@ router.post("/", auth, async (req, res) => {
   });
 
   try {
-    // verify and get user, then save all details of new comment to user
+    // Verify and get user, then save all details of new comment to user
     const user = await User.findById(req.user.id);
+
+    // Get yak from db
+    const yak = await Yak.findById(req.body.yakId);
+
+    // Save comment to the db
     const comment = await newComment.save();
-    // push comment to user, save user, then return the thing
+
+    // push comment to User and Yak
     user.comments.push(comment.id);
-    const new_user = await user.save();
+
+    // console.log();
+    yak.comments.push(comment.id);
+
+    // Save updated user and yak to db
+    await user.save();
+    await yak.save();
+
     res.json({ comment: comment, success: true });
   } catch (exception) {
-    //console.log(exception);
+    console.log(exception);
     res.json({ exception, success: false });
   }
 });
@@ -50,7 +63,7 @@ router.delete("/:id", auth, async (req, res) => {
 
     // filter out deleted contact
     user.comments = user.comments.filter(
-      comment => comment.id != req.params.id
+      (comment) => comment.id != req.params.id
     );
 
     await user.save();
@@ -72,7 +85,7 @@ router.put("/:id", auth, async (req, res) => {
 
     let user = await User.findById(req.user.id);
 
-    user.comments = user.comments.filter(comment => comment != req.params.id);
+    user.comments = user.comments.filter((comment) => comment != req.params.id);
 
     user.comments.push(updatedComment);
     await user.save();

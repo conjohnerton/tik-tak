@@ -20,15 +20,14 @@ const YakSchema = new Schema({
   content: { type: String, required: true },
   author: String,
 
-  // TODO: This should be used in sprint2
-  // comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
+  comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
 
   // TODO: CREATE IMAGE FIELD
 
   geometry: GeoSchema,
 
   // This may need a different expiration time for testing purpose
-  createdAt: { type: Date, expires: "86400", default: Date.now } // one of these
+  createdAt: { type: Date, expires: "86400", default: Date.now }
 });
 
 // Deletes the geometry field from returns JSON

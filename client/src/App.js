@@ -13,7 +13,7 @@ import deleteYak from "./services/deleteYak";
 import shuffle from "./helpers/shuffle";
 import "./App.css";
 
-// !!!When doing async calls, you can't assume that state will be up to date always!
+// ! When doing async calls, you can't assume that state will be up to date always!
 
 const App = (props) => {
   const [currUser, setCurrUser] = useState(null);

@@ -5,7 +5,6 @@ const mongoose = require("mongoose");
 
 // Imported Schemas
 const Yak = require("../../models/Yak");
-const Comment = require("../../models/Comment");
 const User = require("../../models/User");
 
 // Gets yaks within a 5 mile radius of input location
@@ -13,14 +12,16 @@ router.get("/", auth, async (req, res) => {
   try {
     // this is not crashing but Idk if it actually gets anything useful
     // Get yaks around given location, measured along the surface of Earth
-    const localYakList = await Yak.where("geometry").near({
-      center: {
-        type: "Point",
-        coordinates: [parseFloat(req.query.lng), parseFloat(req.query.lat)]
-      },
-      maxDistance: 8046.72, // 5 miles
-      spherical: true
-    });
+    const localYakList = await Yak.where("geometry")
+      .near({
+        center: {
+          type: "Point",
+          coordinates: [parseFloat(req.query.lng), parseFloat(req.query.lat)]
+        },
+        maxDistance: 8046.72, // 5 miles
+        spherical: true
+      })
+      .populate("comments");
 
     // Respond with found yaks
     res.status(200).json({ success: true, yaks: localYakList });
