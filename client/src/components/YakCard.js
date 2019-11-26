@@ -12,6 +12,7 @@ import AddCommentIcon from "@material-ui/icons/AddComment";
 import { lightBlue } from "@material-ui/core/colors";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 
+import ContentCard from "./ContentCard";
 import Comment from "./Comment";
 
 // Returns a string without the @email.com
@@ -127,14 +128,7 @@ function YakCard({ yak, deleteYak, currUser }) {
                   </div>
                 </Grid>
 
-                <Paper className={classes.paperText} elevation={2}>
-                  <Typography
-                    variant="body2"
-                    style={{ wordWrap: "break-word" }}
-                  >
-                    {yak.content}
-                  </Typography>
-                </Paper>
+                <ContentCard content={yak.content} style={classes.paperText} />
               </Grid>
 
               <Container className={classes.buttonArea}>
@@ -161,12 +155,15 @@ function YakCard({ yak, deleteYak, currUser }) {
                     ) : (
                       ""
                     )}
+
                     <Button variant="outlined" size="small">
                       Add comment
                       <AddCommentIcon />
                     </Button>
                   </Grid>
                 </Grid>
+
+                {/* Renders collapsable comment section */}
                 <Collapse
                   in={open}
                   timeout="auto"
