@@ -65,7 +65,7 @@ export default function SignIn({
           <form
             className={classes.form}
             noValidate
-            onSubmit={handleCloseAndSubmit}
+            onSubmit={() => handleCloseAndSubmit}
           >
             <TextField
               variant="outlined"
@@ -88,15 +88,15 @@ export default function SignIn({
             >
               Submit
             </Button>
-            <Button
-              onClick={closeDialog}
-              fullWidth
-              color="secondary"
-              className={classes.button}
-            >
-              Close
-            </Button>
           </form>
+          <Button
+            onClick={closeDialog}
+            fullWidth
+            color="secondary"
+            className={classes.button}
+          >
+            Close
+          </Button>
         </DialogContent>
       </Dialog>
     </div>

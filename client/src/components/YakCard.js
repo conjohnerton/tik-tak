@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
+import { Grid, TextField } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
@@ -67,11 +67,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function YakCard({ yak, deleteYak, currUser }) {
+function YakCard({ yak, deleteYak, currUser, commentActions }) {
   const classes = useStyles();
   const splitEmail = stripEmailHandle(yak.author);
 
   const [open, setOpen] = useState(false);
+
+  function handleCommentCloseAndSubmit(event) {
+    commentActions.handleSubmitWithId(event, yak._id);
+  }
 
   // Creates a render button if user owns yak
   let removeButton = "";
@@ -90,11 +94,12 @@ function YakCard({ yak, deleteYak, currUser }) {
     );
   }
 
+  // Creates yak comment cards for collapsable section
   const comments = yak.comments.map((comment) => (
     <Comment
       key={comment._id}
       classes={classes}
-      splitEmail={splitEmail}
+      splitEmail={stripEmailHandle(comment.author)}
       content={comment.content}
     />
   ));
@@ -155,12 +160,31 @@ function YakCard({ yak, deleteYak, currUser }) {
                     ) : (
                       ""
                     )}
+                  </Grid>
+                </Grid>
 
-                    <Button variant="outlined" size="small">
+                <Grid item>
+                  <form onSubmit={handleCommentCloseAndSubmit}>
+                    <Button variant="outlined" size="small" type="submit">
                       Add comment
                       <AddCommentIcon />
                     </Button>
-                  </Grid>
+                    <TextField
+                      fullWidth
+                      placeholder="Enter a comment"
+                      variant="outlined"
+                      margin="dense"
+                      required
+                      id="content"
+                      label="Content"
+                      name="content"
+                      // You have to tell the component to use empty
+                      // string to get it to be controlled
+                      value={commentActions.authFormVals.content || ""}
+                      multiline={false}
+                      onChange={commentActions.handleChange}
+                    />
+                  </form>
                 </Grid>
 
                 {/* Renders collapsable comment section */}

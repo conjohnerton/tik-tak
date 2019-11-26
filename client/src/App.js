@@ -18,6 +18,8 @@ import "./App.css";
 // ! If you aren't getting the yaks you are posting, your location is probably
 // ! Saved in localStorage, so sign out then in again.
 
+// TODO: CHANGE HANDLECOMMENTADD AND PASS THAT TO YAK CARD
+
 const App = (props) => {
   const [currUser, setCurrUser] = useState(null);
   const loginForm = useForm((vals) => handleLogin(vals));
@@ -111,14 +113,33 @@ const App = (props) => {
     }
   }
 
+  // Adds comment through database and concats to yak comment state
   async function handleCommentAdd(commentData) {
     try {
-      const comment = await addComment(currUser.token, {
+      const response = await addComment(currUser.token, {
         content: commentData.content,
-        yakId: commentData.yakId
+        yakId: commentData.id
       });
 
-      console.log(comment);
+      if (response.success) {
+        const data = {
+          content: response.comment.content,
+          author: response.comment.author,
+          _id: response.comment._id
+        };
+
+        // Update the yak and save the new val
+        const yak = yaks.find((yak) => yak._id === commentData.id);
+        const updatedYak = { ...yak, comments: yak.comments.concat(data) };
+
+        // Filter out updatedYak, and put it into new state
+        setYaks([
+          updatedYak,
+          ...yaks.filter((yak) => yak._id !== commentData.id)
+        ]);
+      } else {
+        throw "Non-successful comment add";
+      }
     } catch (err) {
       console.log("Could not add that comment at this time");
       setErrorMessage("Could not add that comment at this time");
@@ -254,7 +275,7 @@ const App = (props) => {
             history={props.history}
             handleLogout={handleLogout}
             currUser={currUser}
-            commentForm={commentForm}
+            commentActions={commentForm}
           />
         )}
       />

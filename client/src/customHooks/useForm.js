@@ -12,6 +12,15 @@ const useForm = (callback) => {
     callback(vals);
   };
 
+  const handleSubmitWithId = (event, id) => {
+    event.preventDefault();
+    const vals = { id: id, ...authFormVals };
+
+    setValues({});
+
+    callback(vals);
+  };
+
   // passes previous input in and only changes the input that was altered
   const handleChange = (event) => {
     event.persist();
@@ -30,7 +39,8 @@ const useForm = (callback) => {
     handleSubmit,
     handleChange,
     authFormVals,
-    revertChange
+    revertChange,
+    handleSubmitWithId
   };
 };
 
