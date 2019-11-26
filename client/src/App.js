@@ -15,6 +15,8 @@ import shuffle from "./helpers/shuffle";
 import "./App.css";
 
 // ! When doing async calls, you can't assume that state will be up to date always!
+// ! If you aren't getting the yaks you are posting, your location is probably
+// ! Saved in localStorage, so sign out then in again.
 
 const App = (props) => {
   const [currUser, setCurrUser] = useState(null);

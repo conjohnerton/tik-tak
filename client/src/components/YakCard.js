@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, GridItem } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
@@ -8,6 +8,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Container from "@material-ui/core/Container";
 import Collapse from "@material-ui/core/Collapse";
 import PersonPinCircleIcon from "@material-ui/icons/PersonPinCircle";
+import AddCommentIcon from "@material-ui/icons/AddComment";
 import { lightBlue } from "@material-ui/core/colors";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 
@@ -90,6 +91,7 @@ function YakCard({ yak, deleteYak, currUser }) {
 
   const comments = yak.comments.map((comment) => (
     <Comment
+      key={comment._id}
       classes={classes}
       splitEmail={splitEmail}
       content={comment.content}
@@ -137,17 +139,32 @@ function YakCard({ yak, deleteYak, currUser }) {
 
               <Container className={classes.buttonArea}>
                 <Grid
-                  direction="column"
-                  alignContent="flex-end"
-                  alignItems="flex-end"
-                  justify="flex-end"
+                  container
+                  direction="row"
+                  alignContent="center"
+                  alignItems="center"
+                  justify="space-between"
                 >
                   {/* Renders the removeButton, if it exists */}
                   <Grid item>{removeButton}</Grid>
                   <Grid item>
-                    <Typography onClick={() => setOpen(!open)}>
-                      Comments {open ? <ExpandLess /> : <ExpandMore />}
-                    </Typography>
+                    {/* If no comments for yak, don't render the view comments */}
+                    {yak.comments.length !== 0 ? (
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={() => setOpen(!open)}
+                      >
+                        {`View comments (${yak.comments.length})`}
+                        {open ? <ExpandLess /> : <ExpandMore />}
+                      </Button>
+                    ) : (
+                      ""
+                    )}
+                    <Button variant="outlined" size="small">
+                      Add comment
+                      <AddCommentIcon />
+                    </Button>
                   </Grid>
                 </Grid>
                 <Collapse

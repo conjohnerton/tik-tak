@@ -8,7 +8,7 @@ const CommentSchema = new Schema({
     required: false
   },
 
-  dateCreated: { type: Date, expires: "86400", default: Date.now },
+  dateCreated: { type: Date, expires: 86400, default: Date.now },
 
   author: String
 });

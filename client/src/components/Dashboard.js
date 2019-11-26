@@ -31,6 +31,8 @@ const Dashboard = (props) => {
     props.addActions.handleSubmit(content);
   }
 
+  // function handle
+
   // Create list of yak card
   const shownYaks = props.yaks.map((yak) => (
     <YakCard

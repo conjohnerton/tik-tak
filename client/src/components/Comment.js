@@ -3,7 +3,7 @@ import { Paper, Typography, Grid, Divider, Container } from "@material-ui/core";
 
 const Comment = ({ splitEmail, content, classes }) => (
   <Paper elevation={2} className={classes.commentArea}>
-    <Grid wrap="wrap" direction="row" alignItems="space-between">
+    <Grid>
       <Container style={{ textAlign: "left", paddingTop: ".3em" }}>
         <Typography color="primary">{splitEmail}</Typography>
       </Container>
