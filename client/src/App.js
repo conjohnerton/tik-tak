@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { geolocated } from "react-geolocated";
 import { withRouter, Route, Redirect } from "react-router-dom";
+
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Dashboard from "./components/Dashboard";
+
 import useForm from "./customHooks/useForm";
+
 import loginService from "./services/login";
 import signupService from "./services/signup";
 import getYaks from "./services/getYaks";
@@ -17,8 +20,6 @@ import "./App.css";
 // ! When doing async calls, you can't assume that state will be up to date always!
 // ! If you aren't getting the yaks you are posting, your location is probably
 // ! Saved in localStorage, so sign out then in again.
-
-// TODO: CHANGE HANDLECOMMENTADD AND PASS THAT TO YAK CARD
 
 const App = (props) => {
   const [currUser, setCurrUser] = useState(null);
@@ -138,7 +139,7 @@ const App = (props) => {
           ...yaks.filter((yak) => yak._id !== commentData.id)
         ]);
       } else {
-        throw "Non-successful comment add";
+        throw new Error();
       }
     } catch (err) {
       console.log("Could not add that comment at this time");

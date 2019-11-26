@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import YakCard from "./YakCard";
-import SideDrawer from "./SideDrawer";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 
+import YakCard from "./YakCard";
+import SideDrawer from "./SideDrawer";
 import AddPopup from "./AddPopup";
 
 const useStyles = makeStyles((theme) => ({

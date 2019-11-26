@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, TextField } from "@material-ui/core";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import Avatar from "@material-ui/core/Avatar";
-import Container from "@material-ui/core/Container";
-import Collapse from "@material-ui/core/Collapse";
-import PersonPinCircleIcon from "@material-ui/icons/PersonPinCircle";
-import AddCommentIcon from "@material-ui/icons/AddComment";
 import { lightBlue } from "@material-ui/core/colors";
-import { ExpandLess, ExpandMore } from "@material-ui/icons";
+import {
+  Grid,
+  TextField,
+  Paper,
+  Typography,
+  Button,
+  Avatar,
+  Container,
+  Collapse
+} from "@material-ui/core";
+import {
+  ExpandLess,
+  ExpandMore,
+  PersonPinCircle,
+  AddComment
+} from "@material-ui/icons";
 
 import ContentCard from "./ContentCard";
 import Comment from "./Comment";
@@ -54,8 +60,7 @@ const useStyles = makeStyles((theme) => ({
   commentsArea: {
     padding: theme.spacing(2),
     margin: "auto",
-    maxWidth: 500,
-    marginBottom: "1em"
+    maxWidth: 500
   },
   commentArea: {
     marginBottom: "1em"
@@ -74,6 +79,7 @@ function YakCard({ yak, deleteYak, currUser, commentActions }) {
   const [open, setOpen] = useState(false);
 
   function handleCommentCloseAndSubmit(event) {
+    event.target.reset();
     commentActions.handleSubmitWithId(event, yak._id);
   }
 
@@ -119,7 +125,7 @@ function YakCard({ yak, deleteYak, currUser, commentActions }) {
                   justify="space-between"
                 >
                   <Avatar className={classes.avatar} variant="rounded">
-                    <PersonPinCircleIcon />
+                    <PersonPinCircle />
                   </Avatar>
 
                   <div>
@@ -163,11 +169,21 @@ function YakCard({ yak, deleteYak, currUser, commentActions }) {
                   </Grid>
                 </Grid>
 
-                <Grid item>
-                  <form onSubmit={handleCommentCloseAndSubmit}>
-                    <Button variant="outlined" size="small" type="submit">
+                <form onSubmit={handleCommentCloseAndSubmit}>
+                  <Grid
+                    item
+                    container
+                    direction="column-reverse"
+                    style={{ marginTop: ".6em" }}
+                  >
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      type="submit"
+                      // style={{ marginTop: ".6em" }}
+                    >
                       Add comment
-                      <AddCommentIcon />
+                      <AddComment style={{ marginLeft: "1px" }} />
                     </Button>
                     <TextField
                       fullWidth
@@ -176,16 +192,13 @@ function YakCard({ yak, deleteYak, currUser, commentActions }) {
                       margin="dense"
                       required
                       id="content"
-                      label="Content"
+                      label="Comment"
                       name="content"
-                      // You have to tell the component to use empty
-                      // string to get it to be controlled
-                      value={commentActions.authFormVals.content || ""}
                       multiline={false}
                       onChange={commentActions.handleChange}
                     />
-                  </form>
-                </Grid>
+                  </Grid>
+                </form>
 
                 {/* Renders collapsable comment section */}
                 <Collapse

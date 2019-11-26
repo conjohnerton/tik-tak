@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Paper,
-  Typography,
-  Grid,
-  Divider,
-  Container,
-  Collapse
-} from "@material-ui/core";
+import { Paper, Typography, Grid, Divider, Container } from "@material-ui/core";
 
 const Comment = ({ splitEmail, content, classes }) => (
   <Paper elevation={2} className={classes.commentArea}>

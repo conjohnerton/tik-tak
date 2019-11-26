@@ -22,7 +22,7 @@ router.get("/", auth, (req, res) => {
 
 router.post("/", auth, async (req, res) => {
   // Get user to use its email... So mean.
-  const user = User.findById(req.user.id);
+  const user = await User.findById(req.user.id);
 
   const newComment = new Comment({
     content: req.body.content,
