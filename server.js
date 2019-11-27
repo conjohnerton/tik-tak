@@ -35,5 +35,5 @@ app.get("*", (req, res) => {
 });
 
 // Makes the server listen for requests... creepy!
-const port = config.get("port") || 3001;
+const port = process.env.PORT || 3001;
 app.listen(port, () => console.log(`Server listening on port ${port}`));
