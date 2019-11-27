@@ -17,7 +17,7 @@ const MapBox = (props) => {
   return (
     <MapGl
       mapStyle="mapbox://styles/mapbox/streets-v11"
-      mapboxApiAccessToken={keys.mapBox}
+      mapboxApiAccessToken={process.env.mapBox}
       {...state.viewport}
       onViewportChange={(viewport) => setState({ viewport })}
     >
