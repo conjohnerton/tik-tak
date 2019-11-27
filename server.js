@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "client/build")));
 
 // Connect to the DB through a super secret thingy doohickey!
-const url = config.get("mongoURI");
+const url = process.env.mongoURI;
 mongoose
   .connect(url, {
     useUnifiedTopology: true,

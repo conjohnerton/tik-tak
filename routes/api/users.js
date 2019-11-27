@@ -42,7 +42,7 @@ router.post("/", (req, res) => {
           newUser.save().then((user) => {
             jwt.sign(
               { id: user.id },
-              config.get("jwtSecret"),
+              process.env.jwtSecret,
               { expiresIn: 36000000000000000 },
               (err, token) => {
                 if (err) throw err;
