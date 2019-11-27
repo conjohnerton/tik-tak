@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import MapGl, { Marker } from "react-map-gl";
 import PersonPinIcon from "@material-ui/icons/PersonPin";
 
-import keys from "../keys";
-
 const MapBox = (props) => {
   const [state, setState] = useState({
     viewport: {
