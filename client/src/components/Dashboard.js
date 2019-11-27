@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+import { Grid, Typography } from "@material-ui/core/";
 
 import YakCard from "./YakCard";
 import SideDrawer from "./SideDrawer";
 import AddPopup from "./AddPopup";
+import Map from "./Map";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,20 +64,36 @@ const Dashboard = (props) => {
       ) : (
         ""
       )}
-      {/* Shows comment popup only if set to open
-      {openComment ? (
-        <CommentPopup
-          handleChange={props.commentActions.handleChange}
-          handleCloseAndSubmit={() => handleCommentCloseAndSubmit}
-          closeDialog={closeCommentDialog}
-          openDialog={openCommentDialog}
-          open={openComment}
-        />
-      ) : (
-        ""
-      )} */}
+
       {/* Renders list of yakCards */}
-      <Grid className={classes.root}>{shownYaks}</Grid>
+      <Grid
+        container
+        className={classes.root}
+        direction="row-reverse"
+        alignContent="flex-start"
+        justify="center"
+        alignItems="flex-start"
+      >
+        <Grid item>
+          <Typography>Your location:</Typography>
+          <Grid>
+            {/* Passes location to Map if user is signed in */}
+            {props.currUser ? (
+              <Map
+                location={{
+                  lat: props.currUser.lat,
+                  lng: props.currUser.lng
+                }}
+              />
+            ) : (
+              ""
+            )}
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Grid>{shownYaks}</Grid>
+        </Grid>
+      </Grid>
     </SideDrawer>
   );
 };

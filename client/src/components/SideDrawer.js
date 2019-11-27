@@ -186,6 +186,8 @@ export default function MiniDrawer(props) {
           </ListItem>
         </List>
       </Drawer>
+
+      {/* Renders the stuff beside the sidebar */}
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {props.children}
