@@ -8,7 +8,11 @@ const Comment = ({ splitEmail, content, classes }) => (
         <Typography color="primary">{splitEmail}</Typography>
       </Container>
       <Divider variant="fullWidth" />
-      <Typography className={classes.commentContent} variant="body2">
+      <Typography
+        className={classes.commentContent}
+        variant="body2"
+        style={{ wordWrap: "break-word" }}
+      >
         {content}
       </Typography>
     </Grid>

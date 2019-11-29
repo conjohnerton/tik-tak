@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const config = require("config");
 const path = require("path");
 const cors = require("cors");
+const dotenv = require("dotenv").config();
 const express = require("express");
 
 const app = express();
@@ -28,6 +28,7 @@ app.use("/api/yaks", require("./routes/api/yaks"));
 app.use("/api/comments", require("./routes/api/comments"));
 app.use("/api/users", require("./routes/api/users"));
 app.use("/api/login", require("./routes/api/login"));
+app.use("/api/map", require("./routes/api/map"));
 
 // Delivers the initial index.html for React to manipulate
 app.get("*", (req, res) => {

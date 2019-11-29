@@ -69,13 +69,12 @@ const Dashboard = (props) => {
       <Grid
         container
         className={classes.root}
-        direction="row-reverse"
-        alignContent="flex-start"
-        justify="center"
-        alignItems="flex-start"
+        direction="row"
+        alignContent="stretch"
+        justify="flex-start"
+        // alignItems="center"
       >
         <Grid item>
-          <Typography>Your location:</Typography>
           <Grid>
             {/* Passes location to Map if user is signed in */}
             {props.currUser ? (

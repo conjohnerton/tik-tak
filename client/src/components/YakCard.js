@@ -111,7 +111,7 @@ function YakCard({ yak, deleteYak, currUser, commentActions }) {
   ));
 
   return (
-    <Container>
+    <Container style={{ width: "60vw" }}>
       <Paper className={classes.paper} elevation={2}>
         <Grid container spacing={2} direction="column">
           <Grid item xs={12} sm container>
