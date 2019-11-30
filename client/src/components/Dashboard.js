@@ -63,6 +63,7 @@ const Dashboard = (props) => {
       history={props.history}
       openDialog={openAddDialog}
       error={props.error}
+      getYaks={props.getYaks}
     >
       {/* Shows add popup only if set to be open */}
       {openAdd ? (

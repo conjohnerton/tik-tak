@@ -117,7 +117,7 @@ const App = (props) => {
   // Adds comment through database and concats to yak comment state
   async function handleCommentAdd(commentData) {
     try {
-      if (commentData.content.charAt(0) == " ") {
+      if (commentData.content.charAt(0) === " ") {
         setErrorMessage(
           "Please make sure that there are no spaces at the beginning of your comment"
         );
@@ -198,6 +198,28 @@ const App = (props) => {
     setYaks([]);
   };
 
+
+  // Restores user state and gets new yaks from DB
+  async function fetchUserandYaks() {
+    // Parse item from localStorage
+    const user = JSON.parse(window.localStorage.getItem("tik-tak-user"));
+
+    // If user, lat, and lng are saved, render from past location
+    if (user && user.lat && user.lng) {
+      try {
+        const userData = await getYaks(user.token, {
+          lat: user.lat,
+          lng: user.lng
+        });
+
+        setYaks(userData.yaks);
+        setCurrUser(user);
+      } catch (err) {
+        setError("Our servers are under maintence, come back a bit later.");
+      }
+    }
+  }
+
   // Checks if user has existing token in localStorage and signs user in if so
   useEffect(() => {
     // Sets loading, for User Experience purposes
@@ -205,27 +227,6 @@ const App = (props) => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-
-    // Restores user state, if in localStorage
-    async function fetchUserandYaks() {
-      // Parse item from localStorage
-      const user = JSON.parse(window.localStorage.getItem("tik-tak-user"));
-
-      // If user, lat, and lng are saved, render from past location
-      if (user && user.lat && user.lng) {
-        try {
-          const userData = await getYaks(user.token, {
-            lat: user.lat,
-            lng: user.lng
-          });
-
-          setYaks(userData.yaks);
-          setCurrUser(user);
-        } catch (err) {
-          setError("Our servers are under maintence, come back a bit later.");
-        }
-      }
-    }
 
     // ! This function is defined to be immediately invoked
     // ! because useEffect can not be async, but functions within can be
@@ -282,6 +283,7 @@ const App = (props) => {
             handleLogout={handleLogout}
             currUser={currUser}
             commentActions={commentForm}
+            getYaks={fetchUserandYaks}
           />
         )}
       />
