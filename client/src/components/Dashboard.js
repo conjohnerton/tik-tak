@@ -98,6 +98,7 @@ const Dashboard = (props) => {
               ""
             )}
           </Grid>
+
           {/* Renders an Ad message if window is big :) */}
           {getWindowWidth() > 1152 ? (
             <Grid>
