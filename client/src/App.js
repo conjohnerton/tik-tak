@@ -28,7 +28,7 @@ const App = (props) => {
   const commentForm = useForm((vals) => handleCommentAdd(vals));
   const yakForm = useForm((vals) => handleYakAdd(vals));
   const [yaks, setYaks] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   // Sets error message for 3 seconds
@@ -198,7 +198,6 @@ const App = (props) => {
     setYaks([]);
   };
 
-
   // Restores user state and gets new yaks from DB
   async function fetchUserandYaks() {
     // Parse item from localStorage
@@ -223,10 +222,10 @@ const App = (props) => {
   // Checks if user has existing token in localStorage and signs user in if so
   useEffect(() => {
     // Sets loading, for User Experience purposes
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    // setLoading(true);
+    // setTimeout(() => {
+    //   setLoading(false);
+    // }, 1000);
 
     // ! This function is defined to be immediately invoked
     // ! because useEffect can not be async, but functions within can be

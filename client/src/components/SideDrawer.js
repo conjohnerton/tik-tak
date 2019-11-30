@@ -7,7 +7,6 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -16,8 +15,11 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import Grid from "@material-ui/core/Grid";
 import KeyboardReturnIcon from "@material-ui/icons/KeyboardReturn";
-import RefreshIcon from '@material-ui/icons/Refresh';
+import RefreshIcon from "@material-ui/icons/Refresh";
+
+import logo from "../assets/tictacklogo.png";
 
 const drawerWidth = 240;
 
@@ -100,26 +102,35 @@ export default function MiniDrawer(props) {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
+        color="inherit"
         position="fixed"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open
         })}
       >
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open
-            })}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Tik-Tak
-          </Typography>
+          <Grid container justify="space-between">
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              className={clsx(classes.menuButton, {
+                [classes.hide]: open
+              })}
+            >
+              <MenuIcon />
+            </IconButton>
+
+            <img
+              src={logo}
+              alt="The tik-tak logo: A paper airplane, drifting aimlessly above a water spout."
+              style={{
+                height: "3.5em",
+                width: "3.5em"
+              }}
+            />
+          </Grid>
         </Toolbar>
       </AppBar>
 
@@ -150,13 +161,9 @@ export default function MiniDrawer(props) {
         <Divider />
 
         <List>
-          <ListItem
-            button
-            key={"Refresh"}
-            onClick={props.getYaks}
-          >
+          <ListItem button key={"Dashboard"} onClick={props.getYaks}>
             <ListItemIcon>
-              <RefreshIcon/>
+              <RefreshIcon />
             </ListItemIcon>
 
             <ListItemText primary={"Refresh"} />
