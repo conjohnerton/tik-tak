@@ -6,6 +6,7 @@ import YakCard from "./YakCard";
 import SideDrawer from "./SideDrawer";
 import AddPopup from "./AddPopup";
 import Map from "./Map";
+import AffiliateLink from "./AffiliateLink";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,12 +56,13 @@ const Dashboard = (props) => {
   ));
 
   return (
-    // Dashboard is a child of SideDrawer so that it moves when the drawer opens
+    // The real dashboard is a child of SideDrawer so that it moves when the drawer opens
     <SideDrawer
       addActions={props.addActions}
       handleLogout={props.handleLogout}
       history={props.history}
       openDialog={openAddDialog}
+      error={props.error}
     >
       {/* Shows add popup only if set to be open */}
       {openAdd ? (
@@ -74,6 +76,16 @@ const Dashboard = (props) => {
       ) : (
         ""
       )}
+
+      {/* Error message is rendered at top of dashboard */}
+      <Typography
+        color="error"
+        variant="overline"
+        display="block"
+        align="center"
+      >
+        {props.error}
+      </Typography>
 
       {/* Renders list of yakCards */}
       <Grid
@@ -100,33 +112,11 @@ const Dashboard = (props) => {
           </Grid>
 
           {/* Renders an Ad message if window is big :) */}
-          {getWindowWidth() > 1152 ? (
-            <Grid>
-              <Typography align="center" style={{ width: "325px" }}>
-                Like the app? Support it by using my{" "}
-                <a href="https://www.amazon.com/Cracking-Coding-Interview-Programming-Questions/dp/0984782850/ref=sr_1_2?crid=NEZTT3M7C6C6&amp;keywords=cracking+the+coding+interview&amp;qid=1575069077&amp;sprefix=cracking+the+coding+%2Caps%2C155&amp;sr=8-2&_encoding=UTF8&tag=johnconnerton-20&linkCode=ur2&linkId=99d75c02add5c23b93dab45562ff8dd6&camp=1789&creative=9325">
-                  Amazon affiliate link!
-                </a>
-              </Typography>
-            </Grid>
-          ) : (
-            ""
-          )}
+          {getWindowWidth() > 1152 ? <AffiliateLink /> : ""}
         </Grid>
         <Grid item>
           {/* Renders an Ad message :) */}
-          {getWindowWidth() < 1152 ? (
-            <Grid>
-              <Typography align="center">
-                Like the app? Support it by using my{" "}
-                <a href="https://www.amazon.com/Cracking-Coding-Interview-Programming-Questions/dp/0984782850/ref=sr_1_2?crid=NEZTT3M7C6C6&amp;keywords=cracking+the+coding+interview&amp;qid=1575069077&amp;sprefix=cracking+the+coding+%2Caps%2C155&amp;sr=8-2&_encoding=UTF8&tag=johnconnerton-20&linkCode=ur2&linkId=99d75c02add5c23b93dab45562ff8dd6&camp=1789&creative=9325">
-                  Amazon affiliate link!
-                </a>
-              </Typography>
-            </Grid>
-          ) : (
-            ""
-          )}
+          {getWindowWidth() < 1152 ? <AffiliateLink /> : ""}
           <Grid>{shownYaks}</Grid>
         </Grid>
       </Grid>

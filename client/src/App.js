@@ -117,6 +117,12 @@ const App = (props) => {
   // Adds comment through database and concats to yak comment state
   async function handleCommentAdd(commentData) {
     try {
+      if (commentData.content.charAt(0) == " ") {
+        setErrorMessage(
+          "Please make sure that there are no spaces at the beginning of your comment"
+        );
+        return;
+      }
       const response = await addComment(currUser.token, {
         content: commentData.content,
         yakId: commentData.id
@@ -142,7 +148,6 @@ const App = (props) => {
         throw new Error();
       }
     } catch (err) {
-      console.log("Could not add that comment at this time");
       setErrorMessage("Could not add that comment at this time");
     }
   }
