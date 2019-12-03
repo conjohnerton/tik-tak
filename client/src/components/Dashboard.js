@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core/";
 
 import YakCard from "./YakCard";
+import NoYaksCard from "./NoPostsCard";
 import SideDrawer from "./SideDrawer";
 import AddPopup from "./AddPopup";
 import Map from "./Map";
@@ -112,13 +113,19 @@ const Dashboard = (props) => {
             )}
           </Grid>
 
-          {/* Renders an Ad message if window is big :) */}
-          {getWindowWidth() > 1152 ? <AffiliateLink /> : ""}
+          {/* Renders an Ad message at width of Map if window is big :) */}
+          {getWindowWidth() > 1152 ? <AffiliateLink maxWidth="325px" /> : ""}
         </Grid>
         <Grid item>
-          {/* Renders an Ad message :) */}
-          {getWindowWidth() < 1152 ? <AffiliateLink /> : ""}
-          <Grid>{shownYaks}</Grid>
+          {/* Renders an Ad message for smaller screen with width of yaks sizes :) */}
+          {getWindowWidth() < 1152 ? <AffiliateLink maxWidth="750px" /> : ""}
+
+          {/* Renders no yak message if there are no yaks */}
+          {shownYaks.length === 0 ? (
+            <NoYaksCard openAddDialog={openAddDialog} />
+          ) : (
+            <Grid>{shownYaks}</Grid>
+          )}
         </Grid>
       </Grid>
     </SideDrawer>
