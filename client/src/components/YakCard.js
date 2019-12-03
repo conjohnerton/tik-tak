@@ -134,7 +134,7 @@ function YakCard({ yak, deleteYak, currUser, commentActions }) {
                     </Typography>
 
                     <Typography variant="body2" color="primary">
-                      {splitEmail} at {yak.createdAt.substring(11, 16)}
+                      {splitEmail}
                     </Typography>
                   </div>
                 </Grid>

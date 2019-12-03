@@ -18,7 +18,7 @@ router.get("/", auth, async (req, res) => {
           type: "Point",
           coordinates: [parseFloat(req.query.lng), parseFloat(req.query.lat)]
         },
-        maxDistance: 8046.72, // 5 miles
+        maxDistance: 30000.58, // 18-19ish miles
         spherical: true
       })
       .populate("comments");
