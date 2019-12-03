@@ -1,12 +1,9 @@
 ## Share your day, live through others.
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
-
 
 ### To use this app:
-```sh
-$ cd home
-$ sleep untilAppIsDone
-$ do makeTikTakPost while isBreathing
-```
+Click on the link in the project description.
+Sign up!
+Make a post!
+
 ### Benefits
-`None`
+'Everybody near you (currently within an 18-19 mile radius) will be able to recieve your post!
