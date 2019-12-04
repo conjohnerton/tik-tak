@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
+import { Typography, Button } from "@material-ui/core";
 import { ThumbUpAltRounded } from "@material-ui/icons";
 
 // The box that holds the upvote stuff in a YakCard
@@ -11,15 +11,14 @@ const UpvoteBox = ({ upvotes, upvoteYak }) => (
       justifyContent: "flex-end"
     }}
   >
-    <Typography align="right" variant="body1">
+    <Typography style={{ paddingTop: ".5em" }} align="right" variant="body1">
       {upvotes} upvotes
     </Typography>
 
     {/* Upvote button! */}
-    <ThumbUpAltRounded
-      style={{ marginLeft: "1em", paddingBottom: ".2em" }}
-      onClick={upvoteYak}
-    />
+    <Button onClick={upvoteYak}>
+      <ThumbUpAltRounded />
+    </Button>
   </div>
 );
 
