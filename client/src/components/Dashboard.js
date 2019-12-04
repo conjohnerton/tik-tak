@@ -53,6 +53,7 @@ const Dashboard = (props) => {
       key={yak._id}
       currUser={props.currUser}
       commentActions={props.commentActions}
+      upvoteYak={props.upvoteYak}
     />
   ));
 
@@ -79,7 +80,7 @@ const Dashboard = (props) => {
         ""
       )}
 
-      {/* Error message is rendered at top of dashboard */}
+      {/* Error message that is rendered at top of dashboard */}
       <Typography
         color="error"
         variant="overline"
@@ -96,7 +97,6 @@ const Dashboard = (props) => {
         direction="row"
         alignContent="stretch"
         justify="flex-start"
-        // alignItems="center"
       >
         <Grid item>
           <Grid>

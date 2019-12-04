@@ -14,6 +14,7 @@ import getYaks from "./services/getYaks";
 import addYak from "./services/addYak";
 import deleteYak from "./services/deleteYak";
 import addComment from "./services/addComment";
+import upvote from "./services/upvote";
 import shuffle from "./helpers/shuffle";
 import "./App.css";
 
@@ -140,15 +141,42 @@ const App = (props) => {
         const updatedYak = { ...yak, comments: yak.comments.concat(data) };
 
         // Filter out updatedYak, and put it into new state
-        setYaks([
-          updatedYak,
-          ...yaks.filter((yak) => yak._id !== commentData.id)
-        ]);
+        setYaks(
+          [
+            updatedYak,
+            ...yaks.filter((yak) => yak._id !== commentData.id)
+          ].sort((yak, other) => other.upvotes - yak.upvotes)
+        );
       } else {
         throw new Error();
       }
     } catch (err) {
       setErrorMessage("Could not add that comment at this time");
+    }
+  }
+
+  // Upvotes a yak through database and updates upvote state for yak
+  async function upvoteYak(yakID) {
+    try {
+      const response = await upvote(currUser.token, yakID);
+
+      // On success, increment the yaks upvotes
+      if (response.success) {
+        // Find and update the yak with new upvote count
+        const yak = yaks.find((yak) => yak._id === yakID);
+        const updatedYak = { ...yak, upvotes: yak.upvotes + 1 };
+
+        // Filter out updatedYak, and put it into new state, sorted by upvotes
+        setYaks(
+          [updatedYak, ...yaks.filter((yak) => yak._id !== yakID)].sort(
+            (yak, other) => other.upvotes - yak.upvotes
+          )
+        );
+      } else {
+        throw new Error("Could not upvote the yak.");
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -283,6 +311,7 @@ const App = (props) => {
             currUser={currUser}
             commentActions={commentForm}
             getYaks={fetchUserandYaks}
+            upvoteYak={upvoteYak}
           />
         )}
       />

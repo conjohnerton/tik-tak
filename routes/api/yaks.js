@@ -82,4 +82,20 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
+// ? Possible to rewrite and pass the current upvotes from front-end, reducing queries
+// Gets yak and increments its upvote count by one
+router.post("/:id/upvote", async (req, res) => {
+  try {
+    const yak = await Yak.findById(req.params.id);
+
+    // Update the yaks upvote count (returns the db update logs)
+    await yak.updateOne({ upvotes: yak.upvotes + 1 });
+
+    res.json({ success: true });
+  } catch (err) {
+    console.log(err, "Could not upvote post.");
+    res.status(400).json({ success: false, msg: "Could not upvote post." });
+  }
+});
+
 module.exports = router;

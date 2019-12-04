@@ -5,7 +5,6 @@ import {
   Grid,
   TextField,
   Paper,
-  Typography,
   Button,
   Avatar,
   Container,
@@ -19,6 +18,8 @@ import {
 } from "@material-ui/icons";
 
 import ContentCard from "./ContentCard";
+import PostedBy from "./PostedBy";
+import UpvoteBox from "./UpvoteBox";
 import Comment from "./Comment";
 
 // Returns a string without the @email.com
@@ -72,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function YakCard({ yak, deleteYak, currUser, commentActions }) {
+function YakCard({ yak, deleteYak, currUser, commentActions, upvoteYak }) {
   const classes = useStyles();
   const splitEmail = stripEmailHandle(yak.author);
 
@@ -128,14 +129,12 @@ function YakCard({ yak, deleteYak, currUser, commentActions }) {
                     <PersonPinCircle />
                   </Avatar>
 
-                  <div>
-                    <Typography variant="body2" color="textPrimary">
-                      Posted by:
-                    </Typography>
-
-                    <Typography variant="body2" color="primary">
-                      {splitEmail}
-                    </Typography>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <PostedBy name={splitEmail} />
+                    <UpvoteBox
+                      upvotes={yak.upvotes}
+                      upvoteYak={() => upvoteYak(yak._id)}
+                    />
                   </div>
                 </Grid>
 

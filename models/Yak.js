@@ -24,6 +24,8 @@ const YakSchema = new Schema({
 
   // TODO: CREATE IMAGE FIELD
 
+  upvotes: { type: Number, default: 0 },
+
   geometry: GeoSchema,
 
   // This may need a different expiration time for testing purpose
