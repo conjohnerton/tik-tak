@@ -15,7 +15,6 @@ import addYak from "./services/addYak";
 import deleteYak from "./services/deleteYak";
 import addComment from "./services/addComment";
 import upvote from "./services/upvote";
-import shuffle from "./helpers/shuffle";
 import "./App.css";
 
 // ! When doing async calls, you can't assume that state will be up to date always!
@@ -39,6 +38,7 @@ const App = (props) => {
     setTimeout(() => setError(null), 3000);
   }
 
+  // ! It is such a headache to get this to work with useEffect and fetchUserandYak.
   // Gets all nearby yaks and stores them in state
   async function setYakState(userData) {
     try {
@@ -47,7 +47,12 @@ const App = (props) => {
         lng: props.coords.longitude
       });
 
-      setYaks(shuffle(newYaksData.yaks));
+      console.log(newYaksData);
+
+      // setYaks(shuffle(newYaksData.yaks));
+      setYaks(
+        newYaksData.yaks.sort((yak, other) => other.upvotes - yak.upvotes)
+      );
     } catch (err) {
       setErrorMessage("We couldn't get the yaks near you, try again later.");
     }
@@ -239,7 +244,9 @@ const App = (props) => {
           lng: user.lng
         });
 
-        setYaks(userData.yaks);
+        setYaks(
+          userData.yaks.sort((yak, other) => other.upvotes - yak.upvotes)
+        );
         setCurrUser(user);
       } catch (err) {
         setError("Our servers are under maintence, come back a bit later.");
@@ -260,8 +267,12 @@ const App = (props) => {
     fetchUserandYaks();
   }, []);
 
-  // Renders error message when location not enabled
-  if (!props.isGeolocationEnabled) {
+  // Renders error message when location not enabled and no existing credentials exist
+  if (
+    !props.isGeolocationEnabled &&
+    currUser &&
+    (!currUser.lat || !currUser.lng)
+  ) {
     return (
       <div>
         This app uses your current location to gather all posts from folks
