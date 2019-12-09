@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
-const mongoose = require("mongoose");
+const s3uploads = require("../../middleware/s3uploads");
 
 // Imported Schemas
 const Yak = require("../../models/Yak");
@@ -32,8 +32,10 @@ router.get("/", auth, async (req, res) => {
 });
 
 // Posts a yak to logged-in user, broadcasts to others for
-router.post("/", auth, async (req, res) => {
+router.post("/", auth, s3uploads, async (req, res) => {
   try {
+    console.log(req.file);
+
     // Get User the logged in from DB
     const user = await User.findById(req.user.id);
 
