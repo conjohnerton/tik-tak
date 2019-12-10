@@ -15,6 +15,7 @@ const upload = multer({
   storage: multerS3({
     s3: s3,
     // acl: "bucket-owner-full-control",
+    serverSideEncryption: "AES256",
     bucket: "tik-tak-eastern-images/images",
     key: function(req, file, callback) {
       const filename = file.originalname + "-" + Date.now().toString() + ".png";

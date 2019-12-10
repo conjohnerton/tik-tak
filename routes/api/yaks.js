@@ -34,8 +34,6 @@ router.get("/", auth, async (req, res) => {
 // Posts a yak to logged-in user, broadcasts to others for
 router.post("/", auth, s3uploads, async (req, res) => {
   try {
-    console.log(req.file);
-
     // Get User the logged in from DB
     const user = await User.findById(req.user.id);
 
@@ -43,6 +41,8 @@ router.post("/", auth, s3uploads, async (req, res) => {
     const newYak = new Yak({
       content: req.body.content,
       author: user.email,
+      comments: [],
+      image: req.file ? req.file.location : "No image url",
       geometry: {
         type: "Point",
         coordinates: [parseFloat(req.body.lng), parseFloat(req.body.lat)]
@@ -65,18 +65,25 @@ router.post("/", auth, s3uploads, async (req, res) => {
   }
 });
 
-// TODO: Reject delete if user doesn't own yak
+// Deletes yak from given ID, only if user owns it.
 router.delete("/:id", auth, async (req, res) => {
   try {
-    // Find current user
     const user = await User.findById(req.user.id);
 
-    // Delete yak and filter from user
+    // Checks if user owns yak
+    if (!user.posts.includes(req.params.id)) {
+      return res
+        .status(403)
+        .json({ success: false, msg: "You don't own that post." });
+    }
+
+    // Deletes yak
     await Yak.findByIdAndDelete(req.params.id);
 
+    // Filters yak from user and saves to db
     user.posts = user.posts.filter((yak) => yak.id != req.params.id);
-
     await user.save();
+
     res.status(200).json({ success: true });
   } catch (exception) {
     console.log(exception);

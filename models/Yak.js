@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// TODO: Get the
-
 // The model for a location that maps on the surface of the Earth.
 const GeoSchema = new Schema({
   type: {
@@ -18,21 +16,21 @@ const GeoSchema = new Schema({
 // The model that represents every post, ever.
 const YakSchema = new Schema({
   content: { type: String, required: true },
+
   author: String,
 
   comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
 
-  // TODO: CREATE IMAGE FIELD
+  image: String,
 
   upvotes: { type: Number, default: 0 },
 
   geometry: GeoSchema,
 
-  // This may need a different expiration time for testing purpose
   createdAt: { type: Date, expires: 86400, default: Date.now }
 });
 
-// Deletes the geometry field from returns JSON
+// Deletes the geometry field from returned JSON before serving
 YakSchema.methods.toJSON = function() {
   const yak = this.toObject();
   delete yak.geometry;

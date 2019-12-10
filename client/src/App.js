@@ -47,8 +47,6 @@ const App = (props) => {
         lng: props.coords.longitude
       });
 
-      console.log(newYaksData);
-
       // setYaks(shuffle(newYaksData.yaks));
       setYaks(
         newYaksData.yaks.sort((yak, other) => other.upvotes - yak.upvotes)
