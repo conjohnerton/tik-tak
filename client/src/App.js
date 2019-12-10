@@ -31,6 +31,19 @@ const App = (props) => {
   const [yaks, setYaks] = useState([]);
   const [error, setError] = useState(null);
 
+  console.log(window.location.protocol.toString());
+
+  // Checks if http url, redirects to https
+  if (
+    window.location.protocol.toString() === "http:" &&
+    !window.location.href.includes("localhost")
+  ) {
+    console.log("help");
+    window.location.replace(
+      "https:" + window.location.href.substring(window.location.protocol.length)
+    );
+  }
+
   // Sets error message for 3 seconds
   function setErrorMessage(message) {
     setError(message);
@@ -225,9 +238,14 @@ const App = (props) => {
     } catch (err) {
       // Store creds back in form state
       signupForm.revertChange(creds);
-      setErrorMessage(
-        "We could not sign you up, try again later with a different email"
-      );
+
+      if (err.name === "Error") {
+        setErrorMessage("That email is taken, try again with a different one.");
+      } else if (err.name === "TypeError") {
+        setErrorMessage(
+          "Ensure that location services are enabled before signing up."
+        );
+      }
     }
   }
 
