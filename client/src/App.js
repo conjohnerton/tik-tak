@@ -31,14 +31,11 @@ const App = (props) => {
   const [yaks, setYaks] = useState([]);
   const [error, setError] = useState(null);
 
-  console.log(window.location.protocol.toString());
-
   // Checks if http url, redirects to https
   if (
     window.location.protocol.toString() === "http:" &&
     !window.location.href.includes("localhost")
   ) {
-    console.log("help");
     window.location.replace(
       "https:" + window.location.href.substring(window.location.protocol.length)
     );
