@@ -10,7 +10,7 @@ const User = require("../../models/User");
 // @route   POST api/users
 // @desc    Register new user
 // @access  Public
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   const { email, password } = req.body;
 
   // Simple validation
@@ -20,46 +20,49 @@ router.post("/", (req, res) => {
       .json({ email, password, msg: "Please enter all fields." });
   }
 
-  // Check for existing user
-  User.findOne({ email })
-    .then((user) => {
-      if (user)
-        return res
-          .status(400)
-          .json({ msg: "User with that email already exists" });
+  try {
+    // Check for existing user
+    const user = await User.findOne({ email });
 
-      const newUser = new User({
-        email,
-        password
-      });
+    if (user) {
+      return res
+        .status(400)
+        .json({ msg: "User with that email already exists" });
+    }
 
-      // Create salt & hash
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-          if (err) throw err;
-          newUser.password = hash;
-          newUser.save().then((user) => {
-            jwt.sign(
-              { id: user.id },
-              process.env.jwtSecret,
-              { expiresIn: 36000000000000000 },
-              (err, token) => {
-                if (err) throw err;
-                res.json({
-                  token,
-                  user: {
-                    id: user.id,
-                    email: user.email,
-                    contacts: []
-                  }
-                });
-              }
-            );
-          });
+    const newUser = new User({
+      email,
+      password
+    });
+
+    // Create salt & hash
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(newUser.password, salt);
+
+    newUser.password = hash;
+    const savedUser = await newUser.save();
+
+    jwt.sign(
+      { id: savedUser.id },
+      process.env.jwtSecret,
+      { expiresIn: 36000000000000000 },
+      (err, token) => {
+        if (err) {
+          throw err;
+        }
+
+        res.json({
+          token,
+          user: {
+            id: savedUser.id,
+            email: savedUser.email
+          }
         });
-      });
-    })
-    .catch((err) => res.status(404).json({ success: false }));
+      }
+    );
+  } catch (err) {
+    res.status(404).json({ success: false, msg: err });
+  }
 });
 
 module.exports = router;
