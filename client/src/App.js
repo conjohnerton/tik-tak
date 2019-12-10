@@ -27,8 +27,8 @@ const App = (props) => {
   const signupForm = useForm((vals) => handleSignUp(vals));
   const commentForm = useForm((vals) => handleCommentAdd(vals));
   const yakForm = useForm((vals) => handleYakAdd(vals));
+  const [yakFile, setYakFile] = useState(null);
   const [yaks, setYaks] = useState([]);
-  // const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   // Sets error message for 3 seconds
@@ -81,6 +81,10 @@ const App = (props) => {
     );
   }
 
+  function handleFileAdd(file) {
+    setYakFile(file);
+  }
+
   // Sends yak to server and adds to state
   async function handleYakAdd(yakData) {
     try {
@@ -113,7 +117,6 @@ const App = (props) => {
         setYaks(yaks.filter((yak) => yak._id !== yakID));
       }
     } catch (err) {
-      // console.log(err);
       setErrorMessage("We couldn't delete that, try again later.");
     }
   }
@@ -254,12 +257,6 @@ const App = (props) => {
 
   // Checks if user has existing token in localStorage and signs user in if so
   useEffect(() => {
-    // Sets loading, for User Experience purposes
-    // setLoading(true);
-    // setTimeout(() => {
-    //   setLoading(false);
-    // }, 1000);
-
     // ! This function is defined to be immediately invoked
     // ! because useEffect can not be async, but functions within can be
     fetchUserandYaks();
@@ -321,6 +318,7 @@ const App = (props) => {
             commentActions={commentForm}
             getYaks={fetchUserandYaks}
             upvoteYak={upvoteYak}
+            handleFileAdd={handleFileAdd}
           />
         )}
       />

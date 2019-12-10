@@ -75,6 +75,7 @@ const Dashboard = (props) => {
           closeDialog={closeAddDialog}
           openDialog={openAddDialog}
           open={openAdd}
+          handleFileAdd={props.handleFileAdd}
         />
       ) : (
         ""

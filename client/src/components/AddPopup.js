@@ -1,4 +1,5 @@
 import React from "react";
+import ImageUploader from "react-images-upload";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Dialog,
@@ -40,11 +41,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function SignIn({
+export default function AddPopup({
   handleChange,
   handleCloseAndSubmit,
   open,
-  closeDialog
+  closeDialog,
+  handleFileAdd
 }) {
   const classes = useStyles();
 
@@ -78,6 +80,11 @@ export default function SignIn({
               autoFocus
               multiline={true}
               onChange={handleChange}
+            />
+            <ImageUploader
+              singleImage
+              imgExtension={[".jpg", ".gif", ".png", ".gif", ".jpeg"]}
+              onChange={handleFileAdd}
             />
             <Button
               type="submit"
