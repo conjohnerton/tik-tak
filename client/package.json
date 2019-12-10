@@ -35,5 +35,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://tiktakapp.herokuapp.com/"
+  "proxy": "http://tiktakapp.herokuapp.com/"
 }
