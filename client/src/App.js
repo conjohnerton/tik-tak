@@ -82,18 +82,24 @@ const App = (props) => {
   }
 
   function handleFileAdd(file) {
-    setYakFile(file);
+    setYakFile(file[0]);
   }
 
   // Sends yak to server and adds to state
   async function handleYakAdd(yakData) {
     try {
       // Send yak form data to server
-      const response = await addYak(currUser.token, {
-        content: yakData.content,
-        lat: props.coords.latitude,
-        lng: props.coords.longitude
-      });
+      const response = await addYak(
+        currUser.token,
+        {
+          content: yakData.content,
+          lat: props.coords.latitude,
+          lng: props.coords.longitude
+        },
+        yakFile
+      );
+
+      setYakFile(null);
 
       // Adds the returned yak object on successful server addd
       if (response.success) {

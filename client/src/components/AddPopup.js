@@ -85,6 +85,7 @@ export default function AddPopup({
               singleImage
               imgExtension={[".jpg", ".gif", ".png", ".gif", ".jpeg"]}
               onChange={handleFileAdd}
+              withPreview
             />
             <Button
               type="submit"

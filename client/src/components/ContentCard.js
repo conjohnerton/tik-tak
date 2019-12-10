@@ -9,4 +9,4 @@ const ContentCard = ({ style, content }) => (
   </Paper>
 );
 
-export default ContentCard;
+export default React.memo(ContentCard);

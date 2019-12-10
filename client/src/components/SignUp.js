@@ -44,13 +44,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function SignUp({
-  handleChange,
-  handleSubmit,
-  values,
-  setError,
-  error
-}) {
+function SignUp({ handleChange, handleSubmit, values, setError, error }) {
   const classes = useStyles();
 
   // Verifies that password and verify password are matching
@@ -154,3 +148,5 @@ export default function SignUp({
     </Grid>
   );
 }
+
+export default SignUp;

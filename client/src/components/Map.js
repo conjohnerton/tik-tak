@@ -73,4 +73,4 @@ const MapBox = (props) => {
   );
 };
 
-export default MapBox;
+export default React.memo(MapBox);

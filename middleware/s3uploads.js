@@ -14,7 +14,7 @@ const s3 = new aws.S3();
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    // acl: "bucket-owner-full-control",
+    acl: "bucket-owner-full-control",
     serverSideEncryption: "AES256",
     bucket: "tik-tak-eastern-images/images",
     key: function(req, file, callback) {

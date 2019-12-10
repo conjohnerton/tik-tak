@@ -135,7 +135,7 @@ function YakCard({ yak, deleteYak, currUser, commentActions, upvoteYak }) {
                       style={{
                         height: "9em",
                         width: "9em",
-                        justifySelf: "center"
+                        borderRadius: "5px"
                       }}
                       src={yak.image}
                       alt="From someone near your current location."
@@ -230,4 +230,4 @@ function YakCard({ yak, deleteYak, currUser, commentActions, upvoteYak }) {
   );
 }
 
-export default YakCard;
+export default React.memo(YakCard);
