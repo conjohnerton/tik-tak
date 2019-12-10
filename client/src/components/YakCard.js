@@ -122,12 +122,25 @@ function YakCard({ yak, deleteYak, currUser, commentActions, upvoteYak }) {
                   item
                   container
                   direction="row"
-                  alignItems="center"
+                  alignItems="flex-start"
                   justify="space-between"
                 >
-                  <Avatar className={classes.avatar} variant="rounded">
-                    <PersonPinCircle />
-                  </Avatar>
+                  {/* Renders image if yak has a url that I deem valid */}
+                  {yak.image.length <= 12 ? (
+                    <Avatar className={classes.avatar} variant="rounded">
+                      <PersonPinCircle />
+                    </Avatar>
+                  ) : (
+                    <img
+                      style={{
+                        height: "9em",
+                        width: "9em",
+                        justifySelf: "center"
+                      }}
+                      src={yak.image}
+                      alt="From someone near your current location."
+                    />
+                  )}
 
                   <div style={{ display: "flex", flexDirection: "column" }}>
                     <PostedBy name={splitEmail} />
