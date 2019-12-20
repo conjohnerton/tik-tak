@@ -158,16 +158,15 @@ const App = (props) => {
           _id: response.comment._id
         };
 
-        // Update the yak and save the new val
-        const yak = yaks.find((yak) => yak._id === commentData.id);
-        const updatedYak = { ...yak, comments: yak.comments.concat(data) };
-
-        // Filter out updatedYak, and put it into new state
+        // Replace old yak if _id matches
         setYaks(
-          [
-            updatedYak,
-            ...yaks.filter((yak) => yak._id !== commentData.id)
-          ].sort((yak, other) => other.upvotes - yak.upvotes)
+          yaks.map((yak) => {
+            if (yak._id === commentData.id) {
+              return { ...yak, comments: yak.comments.concat(data) };
+            }
+
+            return yak;
+          })
         );
       } else {
         throw new Error();
@@ -184,15 +183,15 @@ const App = (props) => {
 
       // On success, increment the yaks upvotes
       if (response.success) {
-        // Find and update the yak with new upvote count
-        const yak = yaks.find((yak) => yak._id === yakID);
-        const updatedYak = { ...yak, upvotes: yak.upvotes + 1 };
-
-        // Filter out updatedYak, and put it into new state, sorted by upvotes
+        // Update the yak state
         setYaks(
-          [updatedYak, ...yaks.filter((yak) => yak._id !== yakID)].sort(
-            (yak, other) => other.upvotes - yak.upvotes
-          )
+          yaks.map((yak) => {
+            if (yak._id === yakID) {
+              return { ...yak, upvotes: yak.upvotes + 1 };
+            }
+
+            return yak;
+          })
         );
       } else {
         throw new Error("Could not upvote the yak.");
@@ -266,6 +265,7 @@ const App = (props) => {
           lng: user.lng
         });
 
+        // Get yaks and sort by descending --- upvotes
         setYaks(
           userData.yaks.sort((yak, other) => other.upvotes - yak.upvotes)
         );
