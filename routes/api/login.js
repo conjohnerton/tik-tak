@@ -7,6 +7,8 @@ const auth = require("../../middleware/auth");
 // User Model
 const User = require("../../models/User");
 
+// TODO (john): Make status codes for errors a bit more correct.
+
 // @route   POST api/auth
 // @desc    Auth user
 // @access  Public
