@@ -1,3 +1,5 @@
+App is no longer under active development. I'm kinda remaking it in a different tech stack (Go) atm though!
+
 ## Share your day, live through others.
 
 ### To use this app:
